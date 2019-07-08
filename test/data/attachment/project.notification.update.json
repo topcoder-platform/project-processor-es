@@ -1,0 +1,1 @@
+{"topic":"project.notification.update","originator":"project-api","timestamp":"2019-06-21T04:41:46.501Z","mime-type":"application/json","payload":{"resource":"attachment","title":"first attachment submission updated","description":"updated project attachment","allowedUsers":null,"updatedBy":40051333,"id":1,"projectId":1}}

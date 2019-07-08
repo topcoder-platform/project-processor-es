@@ -1,0 +1,1 @@
+{"topic":"project.notification.update","originator":"project-api","timestamp":"2019-06-21T04:50:04.311Z","mime-type":"application/json","payload":{"resource":"timeline","name":"timeline 1-updated","description":"description-updated","startDate":"2018-05-01T00:00:00.000Z","endDate":null,"reference":"project","referenceId":4,"updatedBy":40051333,"id":1}}

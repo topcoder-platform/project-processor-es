@@ -1,0 +1,1 @@
+{"topic":"project.notification.update","originator":"project-api","timestamp":"2019-06-21T02:01:34.484Z","mime-type":"application/json","payload":{"resource":"project.template","id": 1,"name":"new name updated","key":"new key updated","category":"app","scope":{"scope1":"scope 1","scope2":["a"]},"phases":{"phase1":"phase 1","phase2":{"another":"another"}},"updatedBy":40051333}}

@@ -1,0 +1,1 @@
+{"topic":"project.notification.update","originator":"project-api","timestamp":"2019-06-21T02:14:23.644Z","mime-type":"application/json","payload":{"resource":"project.type","displayName":"Chatbot-updated","updatedBy":40051333,"key":"new key"}}
