@@ -24,7 +24,7 @@ module.exports = {
     ES_PROJECT_INDEX: process.env.ES_PROJECT_INDEX || 'projects',
     ES_TIMELINE_INDEX: process.env.ES_TIMELINE_INDEX || 'timelines',
     ES_METADATA_INDEX: process.env.ES_METADATA_INDEX || 'metadata',
-    ES_TYPE: process.env.ES_TYPE || '_doc', // ES 6.x accepts only 1 Type per index and it's mandatory to define it
+    ES_TYPE: process.env.ES_TYPE || 'doc', // ES 6.x accepts only 1 Type per index and it's mandatory to define it
     ES_METADATA_DEFAULT_ID: process.env.ES_METADATA_DEFAULT_ID || 1 // use for setting default id of metadata
   }
 }

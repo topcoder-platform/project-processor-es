@@ -612,7 +612,7 @@ describe('TC Timeline And Nested Timeline Topic Tests', () => {
     } catch (err) {
       expect(err).to.exist // eslint-disable-line
       expect(err.statusCode).to.equal(404)
-      const msg = 'Document not found'
+      const msg = 'Not Found'
       expect(err.message.indexOf(msg) >= 0).to.equal(true)
       return
     }

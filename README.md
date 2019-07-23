@@ -60,9 +60,9 @@ Config for tests are at `config/test.js`, it overrides some default config.
 - Optionally, use another terminal, go to same directory, start a consumer to view the messages:  
   `bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic project.notification.create --from-beginning`
 - If the kafka don't allow to input long message you can use this script to write message from file:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/test_topic/project/project.notification.create.json`
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/data/project/project.notification.create.json`
 - Writing/reading messages to/from other topics are similar. All example for messages are in:  
-`our_project_root_directory/test/test_topic`
+`our_project_root_directory/test/data`
 
 ## Local Elasticsearch setup
 
@@ -125,7 +125,7 @@ npm run test:cov
 - Call our project root directory : `our_project_root_directory`
 - Start kafka server, start elasticsearch, initialize Elasticsearch, start processor app
 - Send message:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/test_topic/project/project.notification.create.json`
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/data/project/project.notification.create.json`
 - run command `npm run view-data projects 1` to view the created data, you will see the data are properly created:
 
 ```bash
@@ -188,7 +188,7 @@ info: {
 - Then in the app console, you will see error messages
 
 - Sent message to update data:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.update < our_project_root_directory/test/test_topic/project/project.notification.update.json`
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.update < our_project_root_directory/test/data/project/project.notification.update.json`
 - Run command `npm run view-data projects 1` to view the updated data, you will see the data are properly updated:
 
 ```bash

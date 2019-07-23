@@ -39,10 +39,12 @@ function getRequestBody (indexName) {
         type: 'nested',
         properties: {
           category: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           contentType: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           createdAt: {
             type: 'date',
@@ -52,10 +54,10 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           description: {
-            type: 'text'
+            type: 'string'
           },
           filePath: {
-            type: 'text'
+            type: 'string'
           },
           id: {
             type: 'long'
@@ -67,7 +69,7 @@ function getRequestBody (indexName) {
             type: 'double'
           },
           title: {
-            type: 'text'
+            type: 'string'
           },
           updatedAt: {
             type: 'date',
@@ -85,15 +87,15 @@ function getRequestBody (indexName) {
         type: 'nested',
         properties: {
           address: {
-            type: 'text'
+            type: 'string'
           },
           title: {
-            type: 'text'
+            type: 'string'
           }
         }
       },
       cancelReason: {
-        type: 'text'
+        type: 'string'
       },
       challengeEligibility: {
         type: 'nested',
@@ -102,7 +104,8 @@ function getRequestBody (indexName) {
             type: 'long'
           },
           role: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           users: {
             type: 'long'
@@ -117,7 +120,7 @@ function getRequestBody (indexName) {
         type: 'integer'
       },
       description: {
-        type: 'text'
+        type: 'string'
       },
       details: {
         type: 'nested',
@@ -126,7 +129,7 @@ function getRequestBody (indexName) {
             type: 'nested',
             properties: {
               description: {
-                type: 'text'
+                type: 'string'
               },
               id: {
                 type: 'integer'
@@ -135,29 +138,29 @@ function getRequestBody (indexName) {
                 type: 'boolean'
               },
               title: {
-                type: 'text'
+                type: 'string'
               }
             }
           },
           TBD_usageDescription: {
-            type: 'text'
+            type: 'string'
           },
           appDefinition: {
             properties: {
               goal: {
                 properties: {
                   value: {
-                    type: 'text'
+                    type: 'string'
                   }
                 }
               },
               primaryTarget: {
-                type: 'text'
+                type: 'string'
               },
               users: {
                 properties: {
                   value: {
-                    type: 'text'
+                    type: 'string'
                   }
                 }
               }
@@ -167,16 +170,16 @@ function getRequestBody (indexName) {
             type: 'boolean'
           },
           products: {
-            type: 'text'
+            type: 'string'
           },
           summary: {
-            type: 'text'
+            type: 'string'
           },
           utm: {
             type: 'nested',
             properties: {
               code: {
-                type: 'text'
+                type: 'string'
               }
             }
           }
@@ -191,13 +194,15 @@ function getRequestBody (indexName) {
       external: {
         properties: {
           data: {
-            type: 'text'
+            type: 'string'
           },
           id: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           type: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           }
         }
       },
@@ -215,13 +220,15 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           email: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           firstName: {
-            type: 'text'
+            type: 'string'
           },
           handle: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           id: {
             type: 'long'
@@ -230,13 +237,14 @@ function getRequestBody (indexName) {
             type: 'boolean'
           },
           lastName: {
-            type: 'text'
+            type: 'string'
           },
           projectId: {
             type: 'long'
           },
           role: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           updatedAt: {
             type: 'date',
@@ -261,13 +269,15 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           email: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           id: {
             type: 'long'
           },
           role: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           updatedAt: {
             type: 'date',
@@ -282,16 +292,18 @@ function getRequestBody (indexName) {
         }
       },
       name: {
-        type: 'text'
+        type: 'string'
       },
       status: {
-        type: 'keyword'
+        type: 'string',
+        index: 'not_analyzed'
       },
       terms: {
         type: 'integer'
       },
       type: {
-        type: 'keyword'
+        type: 'string',
+        index: 'not_analyzed'
       },
       updatedAt: {
         type: 'date',
@@ -305,18 +317,18 @@ function getRequestBody (indexName) {
         format: 'strict_date_optional_time||epoch_millis'
       },
       lastActivityUserId: {
-        type: 'text'
+        type: 'string'
       },
       utm: {
         properties: {
           campaign: {
-            type: 'text'
+            type: 'string'
           },
           medium: {
-            type: 'text'
+            type: 'string'
           },
           source: {
-            type: 'text'
+            type: 'string'
           }
         }
       },
@@ -340,13 +352,15 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           category: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           name: {
-            type: 'text'
+            type: 'string'
           },
           id: {
             type: 'long'
@@ -386,7 +400,8 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           version: {
             type: 'integer'
@@ -418,7 +433,8 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           version: {
             type: 'integer'
@@ -450,7 +466,8 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           version: {
             type: 'integer'
@@ -482,13 +499,15 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           orgId: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           configName: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           configValue: {
-            type: 'text'
+            type: 'string'
           },
           id: {
             type: 'long'
@@ -514,16 +533,18 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           name: {
-            type: 'text'
+            type: 'string'
           },
           productKey: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           category: {
-            type: 'text'
+            type: 'string'
           },
           subCategory: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           id: {
             type: 'long'
@@ -553,10 +574,11 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           displayName: {
-            type: 'text'
+            type: 'string'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           id: {
             type: 'long'
@@ -582,10 +604,11 @@ function getRequestBody (indexName) {
             type: 'integer'
           },
           displayName: {
-            type: 'text'
+            type: 'string'
           },
           key: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           id: {
             type: 'long'
@@ -621,37 +644,38 @@ function getRequestBody (indexName) {
             type: 'long'
           },
           name: {
-            type: 'text'
+            type: 'string'
           },
           description: {
-            type: 'text'
+            type: 'string'
           },
           duration: {
             type: 'integer'
           },
           type: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           order: {
             type: 'integer'
           },
-          plannedText: {
-            type: 'text'
+          plannedstring: {
+            type: 'string'
           },
-          activeText: {
-            type: 'text'
+          activestring: {
+            type: 'string'
           },
-          completedText: {
-            type: 'text'
+          completedstring: {
+            type: 'string'
           },
-          blockedText: {
-            type: 'text'
+          blockedstring: {
+            type: 'string'
           },
           hidden: {
             type: 'boolean'
           },
           reference: {
-            type: 'text'
+            type: 'string'
           },
           referenceId: {
             type: 'long'
@@ -671,10 +695,10 @@ function getRequestBody (indexName) {
         type: 'long'
       },
       name: {
-        type: 'text'
+        type: 'string'
       },
       description: {
-        type: 'text'
+        type: 'string'
       },
       startDate: {
         type: 'date',
@@ -685,7 +709,7 @@ function getRequestBody (indexName) {
         format: 'strict_date_optional_time||epoch_millis'
       },
       reference: {
-        type: 'text'
+        type: 'string'
       },
       referenceId: {
         type: 'long'
@@ -721,10 +745,10 @@ function getRequestBody (indexName) {
             type: 'long'
           },
           name: {
-            type: 'text'
+            type: 'string'
           },
           description: {
-            type: 'text'
+            type: 'string'
           },
           duration: {
             type: 'integer'
@@ -746,10 +770,12 @@ function getRequestBody (indexName) {
             format: 'strict_date_optional_time||epoch_millis'
           },
           status: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           type: {
-            type: 'keyword'
+            type: 'string',
+            index: 'not_analyzed'
           },
           details: {
             type: 'nested',
@@ -758,17 +784,17 @@ function getRequestBody (indexName) {
           order: {
             type: 'integer'
           },
-          plannedText: {
-            type: 'text'
+          plannedstring: {
+            type: 'string'
           },
-          activeText: {
-            type: 'text'
+          activestring: {
+            type: 'string'
           },
-          completedText: {
-            type: 'text'
+          completedstring: {
+            type: 'string'
           },
-          blockedText: {
-            type: 'text'
+          blockedstring: {
+            type: 'string'
           },
           hidden: {
             type: 'boolean'
