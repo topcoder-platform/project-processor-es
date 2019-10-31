@@ -51,21 +51,21 @@ async function getMetadataESData (id) {
 }
 
 /**
- * Expect given objects are equal, ignoring some fields if provided.
- * @param {Object} obj1 obj1
- * @param {Object} obj2 obj2
+ * Expect given objects are equal, or only some fields should be tested if provided.
+ *
+ * @param {Object} target target
+ * @param {Object} expected expected
  * @param {Object} compareFields compare fields
- * @returns {ExpectStatic} the elastic search data of id of configured index type in configured index
  */
-function expectObj (obj1, obj2, compareFields) {
-  let o1 = _.pick(obj1, _.identity)
-  let o2 = _.pick(obj2, _.identity)
-  if (compareFields) {
-    o1 = _.pick(o1, compareFields)
-    o2 = _.pick(o2, compareFields)
-  }
+function expectObj (target, expected, compareFields) {
+  expect(target, 'expectObj(): "target" object should not be undefined').to.not.be.an('undefined')
+  expect(expected, 'expectObj(): "expected" object should not be undefined').to.not.be.an('undefined')
 
-  expect(_.isEqual(o1, o2)).to.equal(true)
+  const targetClean = compareFields ? _.pick(target, compareFields) : target
+  const expectedClean = compareFields ? _.pick(expected, compareFields) : expected
+
+  // check if objects are deeply equal by values
+  expect(targetClean).to.eql(expectedClean)
 }
 
 module.exports = {

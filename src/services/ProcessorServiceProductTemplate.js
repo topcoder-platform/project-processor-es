@@ -32,11 +32,11 @@ function createSchema () {
     brief: Joi.string().max(45),
     details: Joi.string().max(255),
     aliases: Joi.array(),
-    template: Joi.object().empty(null),
+    template: Joi.object().allow(null),
     form: Joi.object().keys({
       key: Joi.string().required(),
       version: Joi.number()
-    }).empty(null),
+    }).allow(null),
     disabled: Joi.boolean().optional(),
     hidden: Joi.boolean().optional(),
     isAddOn: Joi.boolean().optional(),
@@ -47,7 +47,12 @@ function createSchema () {
     updatedBy: Joi.any(),
     deletedBy: Joi.any()
   })
-    .xor('form', 'template')
+    // TODO rewrite this condition so only one of these must be "present" and "not-null"
+    //      - if we just uncomment it, then if one these is passed as null, it would be treated as passed
+    //      - if we uncomment it and change above from '.allow(null)' to '.empty(null)'
+    //        then this check would pass successfully, BUT the null value would be removed from the object
+    //        so the object would end up WITHOUT null value which is expected for consistency.
+    // .xor('form', 'template')
     .unknown(true)
     .required()
 }

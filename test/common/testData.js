@@ -136,8 +136,8 @@ const orgConfigId = orgConfigCreatedMessage.payload.id
 const projectTemplateId = projectTemplateCreatedMessage.payload.id
 const projectTypeId = projectTypeCreatedMessage.payload.key
 const projectTypeNotFoundId = `${projectTypeCreatedMessage.payload.key}_notFound`
-const productCategoryId = productCategoryCreatedMessage.payload.id
-const productCategoryNotFoundId = `${productCategoryCreatedMessage.payload.key}_notFound`
+const productCategoryKey = productCategoryCreatedMessage.payload.key
+const productCategoryNotFoundKey = `${productCategoryCreatedMessage.payload.key}_notFound`
 const metadataId = config.get('esConfig.ES_METADATA_DEFAULT_ID')
 let notFoundId = getRandomInt(10000000)
 // we use projectId+1, timelineId+1, attachmentId+1,... to create another object if need
@@ -186,8 +186,8 @@ module.exports = {
   projectTemplateId,
   projectTypeId,
   projectTypeNotFoundId,
-  productCategoryId,
-  productCategoryNotFoundId,
+  productCategoryKey,
+  productCategoryNotFoundKey,
   productCategoryUpdatedMessage,
   productCategoryCreatedMessage,
   productCategoryDeletedMessage,
