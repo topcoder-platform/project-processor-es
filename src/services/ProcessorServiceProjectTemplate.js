@@ -24,20 +24,20 @@ function createIdSchema () {
  */
 function updateSchema () {
   return createIdSchema().keys({
-    scope: Joi.object().empty(null),
-    phases: Joi.object().empty(null),
+    scope: Joi.object().allow(null),
+    phases: Joi.object().allow(null),
     form: Joi.object().keys({
       key: Joi.string().required(),
       version: Joi.number()
-    }).empty(null),
+    }).allow(null),
     planConfig: Joi.object().keys({
       key: Joi.string().required(),
       version: Joi.number()
-    }).empty(null),
+    }).allow(null),
     priceConfig: Joi.object().keys({
       key: Joi.string().required(),
       version: Joi.number()
-    }).empty(null),
+    }).allow(null),
     disabled: Joi.boolean().optional(),
     hidden: Joi.boolean().optional(),
     createdAt: Joi.any(),
@@ -63,9 +63,15 @@ function createSchema () {
     info: Joi.string().max(255).required(),
     aliases: Joi.array().required()
   })
-    .xor('form', 'scope')
-    .xor('phases', 'planConfig')
-    .nand('priceConfig', 'scope')
+  // TODO rewrite these condition so only one of these must be "present" and "not-null"
+  //      - if we just uncomment it, then if one these is passed as null, it would be treated as passed
+  //      - if we uncomment it and change above from '.allow(null)' to '.empty(null)'
+  //        then this check would pass successfully, BUT the null value would be removed from the object
+  //        so the object would end up WITHOUT null value which is expected for consistency.
+  // .xor('form', 'scope')
+  // .xor('phases', 'planConfig')
+  // TODO rewrite this rule too accordingly
+  // .nand('priceConfig', 'scope')
 }
 
 /**
