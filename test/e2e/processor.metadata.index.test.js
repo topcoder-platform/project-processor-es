@@ -25,8 +25,8 @@ const {
   projectTemplateId,
   projectTypeId,
   projectTypeNotFoundId,
-  productCategoryId,
-  productCategoryNotFoundId,
+  productCategoryKey,
+  productCategoryNotFoundKey,
   productCategoryUpdatedMessage,
   productCategoryCreatedMessage,
   productCategoryDeletedMessage,
@@ -106,7 +106,7 @@ describe('TC Product Category Topic Tests', () => {
   it('create product category message', async () => {
     await ProcessorService.create(productCategoryCreatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryId }),
+    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryKey }),
       productCategoryCreatedMessage.payload,
       _.keys(_.omit(productCategoryCreatedMessage.payload, ['resource'])))
   })
@@ -114,7 +114,7 @@ describe('TC Product Category Topic Tests', () => {
   it('create product category message - already exists', async () => {
     await ProcessorService.create(productCategoryCreatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryId }),
+    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryKey }),
       productCategoryCreatedMessage.payload,
       _.keys(_.omit(productCategoryCreatedMessage.payload, ['resource'])))
   })
@@ -122,23 +122,23 @@ describe('TC Product Category Topic Tests', () => {
   it('update product category message', async () => {
     await ProcessorService.update(productCategoryUpdatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryId }),
+    testHelper.expectObj(_.find(data.productCategories, { key: productCategoryKey }),
       productCategoryUpdatedMessage.payload,
       _.keys(_.omit(productCategoryUpdatedMessage.payload, ['resource'])))
   })
 
   it('update product category message - not found', async () => {
     const message = _.cloneDeep(productCategoryUpdatedMessage)
-    message.payload.key = productCategoryNotFoundId
+    message.payload.key = productCategoryNotFoundKey
     await ProcessorService.update(message)
     const data = await testHelper.getMetadataESData(metadataId)
-    expect(_.find(data.productCategories, { key: productCategoryNotFoundId })).to.be.an('undefined')
+    expect(_.find(data.productCategories, { key: productCategoryNotFoundKey })).to.be.an('undefined')
   })
 
   it('delete product category message', async () => {
     await ProcessorService.deleteMessage(productCategoryDeletedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    expect(_.find(data.productCategories, { key: productCategoryId })).to.be.an('undefined')
+    expect(_.find(data.productCategories, { key: productCategoryKey })).to.be.an('undefined')
   })
 })
 

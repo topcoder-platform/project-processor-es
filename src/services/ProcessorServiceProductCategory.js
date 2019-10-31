@@ -76,7 +76,7 @@ async function create (message) {
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)
-  logger.debug(`Product category created successfully in elasticsearch index, (productCategoryId: ${message.key})`)
+  logger.debug(`Product category created successfully in elasticsearch index, (productCategoryKey: ${message.key})`)
 }
 
 create.schema = {
@@ -102,7 +102,7 @@ async function update (message) {
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)
-  logger.debug(`Product category updated successfully in elasticsearch index, (productCategoryId: ${message.key})`)
+  logger.debug(`Product category updated successfully in elasticsearch index, (productCategoryKey: ${message.key})`)
 }
 
 update.schema = {
@@ -122,7 +122,7 @@ async function deleteMessage (message) {
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)
-  logger.debug(`Product category deleted successfully in elasticsearch index, (productCategoryId: ${message.key})`)
+  logger.debug(`Product category deleted successfully in elasticsearch index, (productCategoryKey: ${message.key})`)
 }
 
 deleteMessage.schema = {
