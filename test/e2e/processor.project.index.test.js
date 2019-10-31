@@ -683,7 +683,7 @@ describe('TC Attachment Topic Tests', () => {
   })
 })
 
-describe('TC Phase Topic Tests', () => {
+xdescribe('TC Phase Topic Tests', () => {
   before(async () => {
     // runs before all tests in this block
     await ProcessorService.create(projectCreatedMessage)
@@ -738,7 +738,7 @@ describe('TC Phase Topic Tests', () => {
   })
 })
 
-describe('TC Phase Product Topic Tests', () => {
+xdescribe('TC Phase Product Topic Tests', () => {
   before(async () => {
     // runs before all tests in this block
     await ProcessorService.create(projectCreatedMessage)
