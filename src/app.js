@@ -56,10 +56,14 @@ const dataHandler = (messageSet, topic, partition) => Promise.each(messageSet, (
         throw new Error(`Invalid topic: ${topic}`)
     }
   })()
-  // commit offset regardless of errors
-    .then(() => {})
-    .catch((err) => { logger.logFullError(err) })
-    .finally(() => consumer.commitOffset({ topic, partition, offset: m.offset }))
+    .then(() => {
+      consumer.commitOffset({ topic, partition, offset: m.offset })
+    })
+    .catch((err) => {
+      logger.logFullError(err)
+      // commit offset regardless of errors
+      consumer.commitOffset({ topic, partition, offset: m.offset })
+    })
 })
 
 /**
