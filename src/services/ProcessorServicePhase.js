@@ -45,7 +45,7 @@ function createSchema () {
  */
 async function create (message) {
   // handle ES Update
-  async function updateDocPromise (doc) {
+  async function updateDocPromise (doc) { // eslint-disable-line no-unused-vars
     const phases = _.isArray(doc._source.phases) ? doc._source.phases : []
     const existingPhaseIndex = _.findIndex(phases, p => p.id === message.id)// if phase does not exists already
     if (existingPhaseIndex === -1) {
@@ -66,8 +66,14 @@ async function create (message) {
     return _.assign(doc._source, { phases })
   }
 
-  await helper.updateProjectESPromise(message.projectId, updateDocPromise)
-  logger.debug(`Project phase created successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
+  // NOTE Disable indexing phases when create at the moment, as it's now being indexed inside Project Service.
+  //      It's because adding a phase may cause cascading updates of other phases and in such cases we are doing
+  //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
+  //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
+  //
+  // await helper.updateProjectESPromise(message.projectId, updateDocPromise)
+  // logger.debug(`Project phase created successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
+  logger.debug(`TEMPORARY SKIPPED: Project phase created successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
 }
 
 create.schema = {
@@ -81,7 +87,7 @@ create.schema = {
  */
 async function update (message) {
   // handle ES Update
-  async function updateDocPromise (doc) {
+  async function updateDocPromise (doc) { // eslint-disable-line no-unused-vars
     const phases = _.map(doc._source.phases, (single) => {
       if (single.id === message.id) {
         return _.assign(single, message)
@@ -91,8 +97,14 @@ async function update (message) {
     return _.assign(doc._source, { phases })
   }
 
-  await helper.updateProjectESPromise(message.projectId, updateDocPromise)
-  logger.debug(`Project phase updated successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
+  // NOTE Disable indexing phases when update at the moment, as it's now being indexed inside Project Service.
+  //      It's because updating a phase may cause cascading updates of other phases and in such cases we are doing
+  //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
+  //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
+  //
+  // await helper.updateProjectESPromise(message.projectId, updateDocPromise)
+  // logger.debug(`Project phase updated successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
+  logger.debug(`TEMPORARY SKIPPED: Project phase updated successfully in elasticsearch index, (projectPhaseId: ${message.id})`)
 }
 
 update.schema = {
