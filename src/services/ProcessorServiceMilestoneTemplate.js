@@ -68,17 +68,17 @@ function createSchema () {
 async function create (message) {
   // handle ES Update
   async function updateDocPromise (doc) {
-    const milestoneTemplate = _.isArray(doc._source.milestoneTemplate) ? doc._source.milestoneTemplate : []
+    const milestoneTemplates = _.isArray(doc._source.milestoneTemplates) ? doc._source.milestoneTemplates : []
 
-    const existingMilestoneTemplateIndex = _.findIndex(milestoneTemplate, p => p.id === message.id)// if milestone template does not exists already
+    const existingMilestoneTemplateIndex = _.findIndex(milestoneTemplates, p => p.id === message.id)// if milestone template does not exists already
     if (existingMilestoneTemplateIndex === -1) {
-      milestoneTemplate.push(message)
+      milestoneTemplates.push(message)
     } else { // if milestone template already exists, ideally we should never land here, but code handles the buggy indexing
       // replaces the old inconsistent index where previously milestone template was not removed from the index but deleted
       // from the database
-      milestoneTemplate.splice(existingMilestoneTemplateIndex, 1, message)
+      milestoneTemplates.splice(existingMilestoneTemplateIndex, 1, message)
     }
-    return _.assign(doc._source, { milestoneTemplate })
+    return _.assign(doc._source, { milestoneTemplates })
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)
@@ -97,14 +97,14 @@ create.schema = {
 async function update (message) {
   // handle ES Update
   async function updateDocPromise (doc) {
-    const milestoneTemplate = _.map(doc._source.milestoneTemplate, (single) => {
+    const milestoneTemplates = _.map(doc._source.milestoneTemplates, (single) => {
       if (single.id === message.id) {
         return _.assign(single, message)
       }
       return single
     })
 
-    return _.assign(doc._source, { milestoneTemplate })
+    return _.assign(doc._source, { milestoneTemplates })
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)
@@ -123,8 +123,8 @@ update.schema = {
 async function deleteMessage (message) {
   // handle ES Update
   async function updateDocPromise (doc) {
-    const milestoneTemplate = _.filter(doc._source.milestoneTemplate, single => single.id !== message.id)
-    return _.assign(doc._source, { milestoneTemplate })
+    const milestoneTemplates = _.filter(doc._source.milestoneTemplates, single => single.id !== message.id)
+    return _.assign(doc._source, { milestoneTemplates })
   }
 
   await helper.updateMetadadaESPromise(updateDocPromise)

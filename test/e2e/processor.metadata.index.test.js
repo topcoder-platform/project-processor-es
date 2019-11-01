@@ -66,7 +66,7 @@ describe('TC Milestone Template Topic Tests', () => {
   it('create milestone template message', async () => {
     await ProcessorService.create(milestoneTemplateCreatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.milestoneTemplate, { id: milestoneTemplateId }),
+    testHelper.expectObj(_.find(data.milestoneTemplates, { id: milestoneTemplateId }),
       milestoneTemplateCreatedMessage.payload,
       _.keys(_.omit(milestoneTemplateCreatedMessage.payload, ['resource'])))
   })
@@ -74,7 +74,7 @@ describe('TC Milestone Template Topic Tests', () => {
   it('create milestone template message - already exists', async () => {
     await ProcessorService.create(milestoneTemplateCreatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.milestoneTemplate, { id: milestoneTemplateId }),
+    testHelper.expectObj(_.find(data.milestoneTemplates, { id: milestoneTemplateId }),
       milestoneTemplateCreatedMessage.payload,
       _.keys(_.omit(milestoneTemplateCreatedMessage.payload, ['resource'])))
   })
@@ -82,7 +82,7 @@ describe('TC Milestone Template Topic Tests', () => {
   it('update milestone template message', async () => {
     await ProcessorService.update(milestoneTemplateUpdatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    testHelper.expectObj(_.find(data.milestoneTemplate, { id: milestoneTemplateId }),
+    testHelper.expectObj(_.find(data.milestoneTemplates, { id: milestoneTemplateId }),
       milestoneTemplateUpdatedMessage.payload,
       _.keys(_.omit(milestoneTemplateUpdatedMessage.payload, ['resource'])))
   })
@@ -92,13 +92,13 @@ describe('TC Milestone Template Topic Tests', () => {
     message.payload.id = notFoundId
     await ProcessorService.update(message)
     const data = await testHelper.getMetadataESData(metadataId)
-    expect(_.find(data.milestoneTemplate, { id: notFoundId })).to.be.an('undefined')
+    expect(_.find(data.milestoneTemplates, { id: notFoundId })).to.be.an('undefined')
   })
 
   it('delete milestone template message', async () => {
     await ProcessorService.deleteMessage(milestoneTemplateDeletedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
-    expect(_.find(data.milestoneTemplate, { id: milestoneTemplateId })).to.be.an('undefined')
+    expect(_.find(data.milestoneTemplates, { id: milestoneTemplateId })).to.be.an('undefined')
   })
 })
 
