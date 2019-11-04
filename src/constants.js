@@ -56,7 +56,11 @@ const PROJECT_MEMBER_ROLE = {
   OBSERVER: 'observer',
   CUSTOMER: 'customer',
   COPILOT: 'copilot',
-  ACCOUNT_MANAGER: 'account_manager'
+  ACCOUNT_MANAGER: 'account_manager',
+  PROGRAM_MANAGER: 'program_manager',
+  ACCOUNT_EXECUTIVE: 'account_executive',
+  SOLUTION_ARCHITECT: 'solution_architect',
+  PROJECT_MANAGER: 'project_manager'
 }
 
 const MILESTONE_TEMPLATE_REFERENCES = {
