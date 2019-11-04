@@ -81,7 +81,6 @@ async function create (message) {
 
 create.schema = {
   message: createSchema()
-    .xor('form', 'template')
 }
 
 /**
