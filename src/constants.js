@@ -16,6 +16,8 @@ const RESOURCES = {
   PROJECT: 'project',
   PROJECT_TEMPLATE: 'project.template',
   PROJECT_TYPE: 'project.type',
+  PROJECT_MEMBER: 'project.member',
+  PROJECT_MEMBER_INVITE: 'project.member.invite',
   ORG_CONFIG: 'project.orgConfig',
   FORM_VERSION: 'project.form.version',
   FORM_REVISION: 'project.form.revision',
@@ -25,14 +27,12 @@ const RESOURCES = {
   PLAN_CONFIG_REVISION: 'project.planConfig.revision',
   PRODUCT_TEMPLATE: 'product.template',
   PRODUCT_CATEGORY: 'product.category',
-  ATTACHMENT: 'attachment',
-  PHASE: 'phase',
-  PROJECT_MEMBER: 'project.member',
-  PHASE_PRODUCT: 'phase.product',
+  PHASE: 'project.phase',
+  PHASE_PRODUCT: 'project.phase.product',
   TIMELINE: 'timeline',
   MILESTONE: 'milestone',
   MILESTONE_TEMPLATE: 'milestone.template',
-  PROJECT_MEMBER_INVITE: 'project.member.invite'
+  ATTACHMENT: 'attachment'
 }
 
 const TIMELINE_REFERENCES = {
@@ -56,7 +56,11 @@ const PROJECT_MEMBER_ROLE = {
   OBSERVER: 'observer',
   CUSTOMER: 'customer',
   COPILOT: 'copilot',
-  ACCOUNT_MANAGER: 'account_manager'
+  ACCOUNT_MANAGER: 'account_manager',
+  PROGRAM_MANAGER: 'program_manager',
+  ACCOUNT_EXECUTIVE: 'account_executive',
+  SOLUTION_ARCHITECT: 'solution_architect',
+  PROJECT_MANAGER: 'project_manager'
 }
 
 const MILESTONE_TEMPLATE_REFERENCES = {

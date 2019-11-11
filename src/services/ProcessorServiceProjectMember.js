@@ -27,8 +27,9 @@ function createIdSchema () {
 function updateSchema () {
   return createIdSchema().keys({
     isPrimary: Joi.boolean(),
-    role: Joi.any().valid(PROJECT_MEMBER_ROLE.CUSTOMER, PROJECT_MEMBER_ROLE.MANAGER,
-      PROJECT_MEMBER_ROLE.ACCOUNT_MANAGER, PROJECT_MEMBER_ROLE.COPILOT, PROJECT_MEMBER_ROLE.OBSERVER).required()
+    // unlike in Project Service endpoints, in this processor we should let create members with any roles
+    // because Project Service may create members with any roles implicitly, when accepting invitations
+    role: Joi.string().valid(_.values(PROJECT_MEMBER_ROLE)).required()
   })
 }
 
@@ -38,8 +39,7 @@ function updateSchema () {
  */
 function createSchema () {
   return createIdSchema().keys({
-    role: Joi.any()
-      .valid(PROJECT_MEMBER_ROLE.MANAGER, PROJECT_MEMBER_ROLE.ACCOUNT_MANAGER, PROJECT_MEMBER_ROLE.COPILOT)
+    role: Joi.string().valid(_.values(PROJECT_MEMBER_ROLE))
   })
 }
 
