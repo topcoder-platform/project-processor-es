@@ -12,9 +12,9 @@ module.exports = {
   KAFKA_CLIENT_CERT: process.env.KAFKA_CLIENT_CERT,
   KAFKA_CLIENT_CERT_KEY: process.env.KAFKA_CLIENT_CERT_KEY,
 
-  CREATE_DATA_TOPIC: process.env.CREATE_DATA_TOPIC || 'project.notification.create',
-  UPDATE_DATA_TOPIC: process.env.UPDATE_DATA_TOPIC || 'project.notification.update',
-  DELETE_DATA_TOPIC: process.env.DELETE_DATA_TOPIC || 'project.notification.delete',
+  CREATE_DATA_TOPIC: process.env.CREATE_DATA_TOPIC || 'project.action.create',
+  UPDATE_DATA_TOPIC: process.env.UPDATE_DATA_TOPIC || 'project.action.update',
+  DELETE_DATA_TOPIC: process.env.DELETE_DATA_TOPIC || 'project.action.delete',
   KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'project-api',
 
   esConfig: {

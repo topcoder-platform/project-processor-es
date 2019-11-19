@@ -13,108 +13,108 @@ function getRandomInt (max) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-const projectCreatedMessage = require('../data/project/project.notification.create.json')
-const projectUpdatedMessage = require('../data/project/project.notification.update.json')
-const projectDeletedMessage = require('../data/project/project.notification.delete.json')
+const projectCreatedMessage = require('../data/project/project.action.create.json')
+const projectUpdatedMessage = require('../data/project/project.action.update.json')
+const projectDeletedMessage = require('../data/project/project.action.delete.json')
 
-const attachmentCreatedMessage = require('../data/attachment/project.notification.create.json')
-const attachmentUpdatedMessage = require('../data/attachment/project.notification.update.json')
-const attachmentDeletedMessage = require('../data/attachment/project.notification.delete.json')
+const attachmentCreatedMessage = require('../data/attachment/project.action.create.json')
+const attachmentUpdatedMessage = require('../data/attachment/project.action.update.json')
+const attachmentDeletedMessage = require('../data/attachment/project.action.delete.json')
 
-const timelineCreatedMessage = require('../data/timeline/project.notification.create.json')
-const timelineUpdatedMessage = require('../data/timeline/project.notification.update.json')
-const timelineDeletedMessage = require('../data/timeline/project.notification.delete.json')
+const timelineCreatedMessage = require('../data/timeline/project.action.create.json')
+const timelineUpdatedMessage = require('../data/timeline/project.action.update.json')
+const timelineDeletedMessage = require('../data/timeline/project.action.delete.json')
 
-const milestoneCreatedMessage = require('../data/milestone/project.notification.create.json')
-const milestoneUpdatedMessage = require('../data/milestone/project.notification.update.json')
-const milestoneDeletedMessage = require('../data/milestone/project.notification.delete.json')
+const milestoneCreatedMessage = require('../data/milestone/project.action.create.json')
+const milestoneUpdatedMessage = require('../data/milestone/project.action.update.json')
+const milestoneDeletedMessage = require('../data/milestone/project.action.delete.json')
 
-const milestoneTemplateCreatedMessage = require('../data/milestone.template/project.notification.create.json')
-const milestoneTemplateUpdatedMessage = require('../data/milestone.template/project.notification.update.json')
-const milestoneTemplateDeletedMessage = require('../data/milestone.template/project.notification.delete.json')
+const milestoneTemplateCreatedMessage = require('../data/milestone.template/project.action.create.json')
+const milestoneTemplateUpdatedMessage = require('../data/milestone.template/project.action.update.json')
+const milestoneTemplateDeletedMessage = require('../data/milestone.template/project.action.delete.json')
 
-const phaseCreatedMessage = require('../data/phase/project.notification.create.json')
-const phaseUpdatedMessage = require('../data/phase/project.notification.update.json')
-const phaseDeletedMessage = require('../data/phase/project.notification.delete.json')
+const phaseCreatedMessage = require('../data/phase/project.action.create.json')
+const phaseUpdatedMessage = require('../data/phase/project.action.update.json')
+const phaseDeletedMessage = require('../data/phase/project.action.delete.json')
 
-const phaseProductCreatedMessage = require('../data/phase.product/project.notification.create.json')
-const phaseProductUpdatedMessage = require('../data/phase.product/project.notification.update.json')
-const phaseProductDeletedMessage = require('../data/phase.product/project.notification.delete.json')
+const phaseProductCreatedMessage = require('../data/phase.product/project.action.create.json')
+const phaseProductUpdatedMessage = require('../data/phase.product/project.action.update.json')
+const phaseProductDeletedMessage = require('../data/phase.product/project.action.delete.json')
 
-const productTemplateCreatedMessage = require('../data/product.template/project.notification.create.json')
-const productTemplateUpdatedMessage = require('../data/product.template/project.notification.update.json')
-const productTemplateDeletedMessage = require('../data/product.template/project.notification.delete.json')
+const productTemplateCreatedMessage = require('../data/product.template/project.action.create.json')
+const productTemplateUpdatedMessage = require('../data/product.template/project.action.update.json')
+const productTemplateDeletedMessage = require('../data/product.template/project.action.delete.json')
 
 const projectFormRevisionCreatedMessage = require(
-  '../data/project.form.revision/project.notification.create.json'
+  '../data/project.form.revision/project.action.create.json'
 )
 const projectFormRevisionDeletedMessage = require(
-  '../data/project.form.revision/project.notification.delete.json'
+  '../data/project.form.revision/project.action.delete.json'
 )
 
-const projectFormVersionCreatedMessage = require('../data/project.form.version/project.notification.create.json')
-const projectFormVersionUpdatedMessage = require('../data/project.form.version/project.notification.update.json')
-const projectFormVersionDeletedMessage = require('../data/project.form.version/project.notification.delete.json')
+const projectFormVersionCreatedMessage = require('../data/project.form.version/project.action.create.json')
+const projectFormVersionUpdatedMessage = require('../data/project.form.version/project.action.update.json')
+const projectFormVersionDeletedMessage = require('../data/project.form.version/project.action.delete.json')
 
 const projectPlanConfigRevisionCreatedMessage = require(
-  '../data/project.planConfig.revision/project.notification.create.json'
+  '../data/project.planConfig.revision/project.action.create.json'
 )
 const projectPlanConfigRevisionDeletedMessage = require(
-  '../data/project.planConfig.revision/project.notification.delete.json'
+  '../data/project.planConfig.revision/project.action.delete.json'
 )
 
 const projectPlanConfigVersionCreatedMessage = require(
-  '../data/project.planConfig.version/project.notification.create.json'
+  '../data/project.planConfig.version/project.action.create.json'
 )
 const projectPlanConfigVersionUpdatedMessage = require(
-  '../data/project.planConfig.version/project.notification.update.json'
+  '../data/project.planConfig.version/project.action.update.json'
 )
 const projectPlanConfigVersionDeletedMessage = require(
-  '../data/project.planConfig.version/project.notification.delete.json'
+  '../data/project.planConfig.version/project.action.delete.json'
 )
 
 const projectPriceConfigRevisionCreatedMessage = require(
-  '../data/project.priceConfig.revision/project.notification.create.json'
+  '../data/project.priceConfig.revision/project.action.create.json'
 )
 const projectPriceConfigRevisionDeletedMessage = require(
-  '../data/project.priceConfig.revision/project.notification.delete.json'
+  '../data/project.priceConfig.revision/project.action.delete.json'
 )
 
 const projectPriceConfigVersionCreatedMessage = require(
-  '../data/project.priceConfig.version/project.notification.create.json'
+  '../data/project.priceConfig.version/project.action.create.json'
 )
 const projectPriceConfigVersionUpdatedMessage = require(
-  '../data/project.priceConfig.version/project.notification.update.json'
+  '../data/project.priceConfig.version/project.action.update.json'
 )
 const projectPriceConfigVersionDeletedMessage = require(
-  '../data/project.priceConfig.version/project.notification.delete.json'
+  '../data/project.priceConfig.version/project.action.delete.json'
 )
 
-const projectMemberCreatedMessage = require('../data/project.member/project.notification.create.json')
-const projectMemberUpdatedMessage = require('../data/project.member/project.notification.update.json')
-const projectMemberDeletedMessage = require('../data/project.member/project.notification.delete.json')
+const projectMemberCreatedMessage = require('../data/project.member/project.action.create.json')
+const projectMemberUpdatedMessage = require('../data/project.member/project.action.update.json')
+const projectMemberDeletedMessage = require('../data/project.member/project.action.delete.json')
 
 const projectMemberInviteCreatedMessage = require(
-  '../data/project.member.invite/project.notification.create.json'
+  '../data/project.member.invite/project.action.create.json'
 )
 const projectMemberInviteUpdatedMessage = require(
-  '../data/project.member.invite/project.notification.update.json'
+  '../data/project.member.invite/project.action.update.json'
 )
-const orgConfigCreatedMessage = require('../data/project.orgConfig/project.notification.create.json')
-const orgConfigUpdatedMessage = require('../data/project.orgConfig/project.notification.update.json')
-const orgConfigDeletedMessage = require('../data/project.orgConfig/project.notification.delete.json')
+const orgConfigCreatedMessage = require('../data/project.orgConfig/project.action.create.json')
+const orgConfigUpdatedMessage = require('../data/project.orgConfig/project.action.update.json')
+const orgConfigDeletedMessage = require('../data/project.orgConfig/project.action.delete.json')
 
-const projectTemplateCreatedMessage = require('../data/project.template/project.notification.create.json')
-const projectTemplateUpdatedMessage = require('../data/project.template/project.notification.update.json')
-const projectTemplateDeletedMessage = require('../data/project.template/project.notification.delete.json')
+const projectTemplateCreatedMessage = require('../data/project.template/project.action.create.json')
+const projectTemplateUpdatedMessage = require('../data/project.template/project.action.update.json')
+const projectTemplateDeletedMessage = require('../data/project.template/project.action.delete.json')
 
-const projectTypeCreatedMessage = require('../data/project.type/project.notification.create.json')
-const projectTypeUpdatedMessage = require('../data/project.type/project.notification.update.json')
-const projectTypeDeletedMessage = require('../data/project.type/project.notification.delete.json')
+const projectTypeCreatedMessage = require('../data/project.type/project.action.create.json')
+const projectTypeUpdatedMessage = require('../data/project.type/project.action.update.json')
+const projectTypeDeletedMessage = require('../data/project.type/project.action.delete.json')
 
-const productCategoryCreatedMessage = require('../data/product.category/project.notification.create.json')
-const productCategoryUpdatedMessage = require('../data/product.category/project.notification.update.json')
-const productCategoryDeletedMessage = require('../data/product.category/project.notification.delete.json')
+const productCategoryCreatedMessage = require('../data/product.category/project.action.create.json')
+const productCategoryUpdatedMessage = require('../data/product.category/project.action.update.json')
+const productCategoryDeletedMessage = require('../data/product.category/project.action.delete.json')
 
 const projectId = projectCreatedMessage.payload.id
 const timelineId = timelineCreatedMessage.payload.id
