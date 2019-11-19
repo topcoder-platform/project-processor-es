@@ -21,9 +21,9 @@ The following parameters can be set in config files or in env variables:
 - KAFKA_CLIENT_CERT_KEY: Kafka connection private key, optional; default value is undefined;
     if not provided, then SSL connection is not used, direct insecure connection is used;
     if provided, it can be either path to private key file or private key content
-- CREATE_DATA_TOPIC: create data Kafka topic, default value is 'project.notification.create'
-- UPDATE_DATA_TOPIC: update data Kafka topic, default value is 'project.notification.update'
-- DELETE_DATA_TOPIC: delete data Kafka topic, default value is 'project.notification.delete'
+- CREATE_DATA_TOPIC: create data Kafka topic, default value is 'project.action.create'
+- UPDATE_DATA_TOPIC: update data Kafka topic, default value is 'project.action.update'
+- DELETE_DATA_TOPIC: delete data Kafka topic, default value is 'project.action.delete'
 - KAFKA_MESSAGE_ORIGINATOR: Kafka topic originator, default value is 'project-api'
 - esConfig: config object for Elasticsearch
 
@@ -41,27 +41,27 @@ Config for tests are at `config/test.js`, it overrides some default config.
 - Download kafka at `https://www.apache.org/dyn/closer.cgi?path=/kafka/1.1.0/kafka_2.11-1.1.0.tgz`
 - Extract out the doanlowded tgz file
 - Go to extracted directory kafka_2.11-0.11.0.1
-- Start ZooKeeper server:  
+- Start ZooKeeper server:
   `bin/zookeeper-server-start.sh config/zookeeper.properties`
-- Use another terminal, go to same directory, start the Kafka server:  
+- Use another terminal, go to same directory, start the Kafka server:
   `bin/kafka-server-start.sh config/server.properties`
 - Note that the zookeeper server is at localhost:2181, and Kafka server is at localhost:9092
-- Use another terminal, go to same directory, create some topics:  
-  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.notification.create`  
-  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.notification.update`  
-  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.notification.delete`  
-- Verify that the topics are created:  
+- Use another terminal, go to same directory, create some topics:
+  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.action.create`
+  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.action.update`
+  `bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic project.action.delete`
+- Verify that the topics are created:
   `bin/kafka-topics.sh --list --zookeeper localhost:2181`,
   it should list out the created topics
-- run the producer and then write some message into the console to send to the `project.notification.create` topic:  
-  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create`  
-  in the console, write message, one message per line:  
-  `{"topic":"project.notification.create","originator":"project-api","timestamp":"2019-06-20T13:43:25.817Z","mime-type":"application/json","payload":{"resource":"project","createdAt":"2019-06-20T13:43:23.554Z","updatedAt":"2019-06-20T13:43:23.555Z","terms":[],"id":1,"name":"test project","description":"Hello I am a test project","type":"app","createdBy":40051333,"updatedBy":40051333,"projectEligibility":[],"bookmarks":[],"external":null,"status":"draft","lastActivityAt":"2019-06-20T13:43:23.514Z","lastActivityUserId":"40051333","members":[{"createdAt":"2019-06-20T13:43:23.555Z","updatedAt":"2019-06-20T13:43:23.625Z","id":2,"isPrimary":true,"role":"manager","userId":40051333,"updatedBy":40051333,"createdBy":40051333,"projectId":2,"deletedAt":null,"deletedBy":null}],"version":"v2","directProjectId":null,"billingAccountId":null,"estimatedPrice":null,"actualPrice":null,"details":null,"cancelReason":null,"templateId":null,"deletedBy":null,"attachments":null,"phases":null,"projectUrl":"https://connect.topcoder-dev.com/projects/2"}}`
-- Optionally, use another terminal, go to same directory, start a consumer to view the messages:  
-  `bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic project.notification.create --from-beginning`
-- If the kafka don't allow to input long message you can use this script to write message from file:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/data/project/project.notification.create.json`
-- Writing/reading messages to/from other topics are similar. All example for messages are in:  
+- run the producer and then write some message into the console to send to the `project.action.create` topic:
+  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.create`
+  in the console, write message, one message per line:
+  `{"topic":"project.action.create","originator":"project-api","timestamp":"2019-06-20T13:43:25.817Z","mime-type":"application/json","payload":{"resource":"project","createdAt":"2019-06-20T13:43:23.554Z","updatedAt":"2019-06-20T13:43:23.555Z","terms":[],"id":1,"name":"test project","description":"Hello I am a test project","type":"app","createdBy":40051333,"updatedBy":40051333,"projectEligibility":[],"bookmarks":[],"external":null,"status":"draft","lastActivityAt":"2019-06-20T13:43:23.514Z","lastActivityUserId":"40051333","members":[{"createdAt":"2019-06-20T13:43:23.555Z","updatedAt":"2019-06-20T13:43:23.625Z","id":2,"isPrimary":true,"role":"manager","userId":40051333,"updatedBy":40051333,"createdBy":40051333,"projectId":2,"deletedAt":null,"deletedBy":null}],"version":"v2","directProjectId":null,"billingAccountId":null,"estimatedPrice":null,"actualPrice":null,"details":null,"cancelReason":null,"templateId":null,"deletedBy":null,"attachments":null,"phases":null,"projectUrl":"https://connect.topcoder-dev.com/projects/2"}}`
+- Optionally, use another terminal, go to same directory, start a consumer to view the messages:
+  `bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic project.action.create --from-beginning`
+- If the kafka don't allow to input long message you can use this script to write message from file:
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.create < our_project_root_directory/test/data/project/project.action.create.json`
+- Writing/reading messages to/from other topics are similar. All example for messages are in:
 `our_project_root_directory/test/data`
 
 ## Local Elasticsearch setup
@@ -124,8 +124,8 @@ npm run test:cov
 - Call extracted directory kafka_2.11-0.11.0.1 : `path_to_kafka`
 - Call our project root directory : `our_project_root_directory`
 - Start kafka server, start elasticsearch, initialize Elasticsearch, start processor app
-- Send message:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create < our_project_root_directory/test/data/project/project.notification.create.json`
+- Send message:
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.create < our_project_root_directory/test/data/project/project.action.create.json`
 - run command `npm run view-data projects 1` to view the created data, you will see the data are properly created:
 
 ```bash
@@ -177,18 +177,18 @@ info: {
 ```
 
 
-- Run the producer and then write some invalid message into the console to send to the `project.notification.create` topic:  
-  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create`  
-  in the console, write message, one message per line:  
-  `{ "topic": "project.notification.create", "originator": "project-api", "timestamp": "2019-02-16T00:00:00", "mime-type": "application/json", "payload": { "id": "invalid", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": "Code", "name": "test", "description": "desc", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0aa", "phases": [{ "id": "8e17090c-465b-4c17-b6d9-dfa16300b012", "name": "review", "isActive": true, "duration": 10000 }], "prizeSets": [{ "type": "prize", "prizes": [{ "type": "winning prize", "value": 500 }] }], "reviewType": "code review", "tags": ["code"], "projectId": 123, "forumId": 456, "status": "Active", "created": "2019-02-16T00:00:00", "createdBy": "admin" } }`
+- Run the producer and then write some invalid message into the console to send to the `project.action.create` topic:
+  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.create`
+  in the console, write message, one message per line:
+  `{ "topic": "project.action.create", "originator": "project-api", "timestamp": "2019-02-16T00:00:00", "mime-type": "application/json", "payload": { "id": "invalid", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": "Code", "name": "test", "description": "desc", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0aa", "phases": [{ "id": "8e17090c-465b-4c17-b6d9-dfa16300b012", "name": "review", "isActive": true, "duration": 10000 }], "prizeSets": [{ "type": "prize", "prizes": [{ "type": "winning prize", "value": 500 }] }], "reviewType": "code review", "tags": ["code"], "projectId": 123, "forumId": 456, "status": "Active", "created": "2019-02-16T00:00:00", "createdBy": "admin" } }`
 
-  `{ "topic": "project.notification.create", "originator": "project-api", "timestamp": "2019-02-16T00:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": "Code", "name": "test", "description": "desc", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0aa", "phases": [{ "id": "8e17090c-465b-4c17-b6d9-dfa16300b012", "name": "review", "isActive": true, "duration": 10000 }], "prizeSets": [{ "type": "prize", "prizes": [{ "type": "winning prize", "value": 500 }] }], "reviewType": "code review", "tags": ["code"], "projectId": 123, "forumId": -456, "status": "Active", "created": "2018-01-02T00:00:00", "createdBy": "admin" } }`
+  `{ "topic": "project.action.create", "originator": "project-api", "timestamp": "2019-02-16T00:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": "Code", "name": "test", "description": "desc", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0aa", "phases": [{ "id": "8e17090c-465b-4c17-b6d9-dfa16300b012", "name": "review", "isActive": true, "duration": 10000 }], "prizeSets": [{ "type": "prize", "prizes": [{ "type": "winning prize", "value": 500 }] }], "reviewType": "code review", "tags": ["code"], "projectId": 123, "forumId": -456, "status": "Active", "created": "2018-01-02T00:00:00", "createdBy": "admin" } }`
 
   `{ [ { abc`
 - Then in the app console, you will see error messages
 
-- Sent message to update data:  
-  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.update < our_project_root_directory/test/data/project/project.notification.update.json`
+- Sent message to update data:
+  `path_to_kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.update < our_project_root_directory/test/data/project/project.action.update.json`
 - Run command `npm run view-data projects 1` to view the updated data, you will see the data are properly updated:
 
 ```bash
@@ -242,15 +242,15 @@ info: {
 ```
 
 
-- Run the producer and then write some invalid message into the console to send to the `project.notification.create` topic:  
-  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.notification.create`
-  in the console, write message, one message per line:  
-  `{ "topic": "project.notification.update", "originator": "project-api", "timestamp": "2019-02-17T01:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "123", "track": "Code", "name": "test3", "description": "desc3", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0dd", "groups": ["group2", "group3"], "updated": "2019-02-17T01:00:00", "updatedBy": "admin" } }`
+- Run the producer and then write some invalid message into the console to send to the `project.action.create` topic:
+  `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic project.action.create`
+  in the console, write message, one message per line:
+  `{ "topic": "project.action.update", "originator": "project-api", "timestamp": "2019-02-17T01:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "123", "track": "Code", "name": "test3", "description": "desc3", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0dd", "groups": ["group2", "group3"], "updated": "2019-02-17T01:00:00", "updatedBy": "admin" } }`
 
-  `{ "topic": "project.notification.update", "originator": "project-api", "timestamp": "2019-02-17T01:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": ["Code"], "name": "test3", "description": "desc3", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0dd", "groups": ["group2", "group3"], "updated": "2019-02-17T01:00:00", "updatedBy": "admin" } }`
+  `{ "topic": "project.action.update", "originator": "project-api", "timestamp": "2019-02-17T01:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": ["Code"], "name": "test3", "description": "desc3", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0dd", "groups": ["group2", "group3"], "updated": "2019-02-17T01:00:00", "updatedBy": "admin" } }`
 
   `[ [ [ } } }`
-  
+
 - Then in the app console, you will see error messages
 
 - To test the health check API, run `export PORT=5000`, start the processor, then browse `http://localhost:5000/health` in a browser,
