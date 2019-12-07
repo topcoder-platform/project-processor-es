@@ -11,6 +11,7 @@ const Joi = require('joi')
 const ProcessorService = require('../../src/services/ProcessorService')
 const testHelper = require('../common/testHelper')
 const logger = require('../../src/common/logger')
+const helper = require('../../src/common/helper')
 
 const {
   projectId,
@@ -799,13 +800,21 @@ xdescribe('TC Phase Product Topic Tests', () => {
 })
 
 describe('TC Project Member Topic Tests', () => {
+  let getMemberDetailsByUserIds
+
   before(async () => {
     // runs before all tests in this block
     await ProcessorService.create(projectCreatedMessage)
+    getMemberDetailsByUserIds = helper.getMemberDetailsByUserIds
+    helper.getMemberDetailsByUserIds = async (userIds) => {
+      return [] // return empty details
+    }
   })
   after(async () => {
     // runs after all tests in this block
     await ProcessorService.deleteMessage(projectDeletedMessage)
+    // restore the method
+    helper.getMemberDetailsByUserIds = getMemberDetailsByUserIds
   })
 
   it('create project member message', async () => {

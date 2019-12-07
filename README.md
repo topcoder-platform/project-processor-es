@@ -25,6 +25,13 @@ The following parameters can be set in config files or in env variables:
 - UPDATE_DATA_TOPIC: update data Kafka topic, default value is 'project.action.update'
 - DELETE_DATA_TOPIC: delete data Kafka topic, default value is 'project.action.delete'
 - KAFKA_MESSAGE_ORIGINATOR: Kafka topic originator, default value is 'project-api'
+- MEMBER_SERVICE_ENDPOINT: used to get member details
+- AUTH0_URL: AUTH0 URL, used to get M2M token
+- AUTH0_PROXY_SERVER_URL: AUTH0 proxy server URL, used to get M2M token
+- AUTH0_AUDIENCE: AUTH0 audience, used to get M2M token
+- TOKEN_CACHE_TIME: AUTH0 token cache time, used to get M2M token
+- AUTH0_CLIENT_ID: AUTH0 client id, used to get M2M token
+- AUTH0_CLIENT_SECRET: AUTH0 client secret, used to get M2M token
 - esConfig: config object for Elasticsearch
 
 Refer to `esConfig` variable in `config/default.js` for ES related configuration.
@@ -69,11 +76,19 @@ Config for tests are at `config/test.js`, it overrides some default config.
 - In the `docker-es` folder, run `docker-compose up`
 
 ## Local deployment
-
 - Install dependencies `npm i`
 - Run code lint check `npm run lint`, running `npm run lint:fix` can fix some lint errors if any
 - Initialize Elasticsearch, create configured Elasticsearch index if not present: `npm run sync:es`
 - Start processor app `npm start`
+
+Note that you need to set AUTH0 related environment variables belows before you can start the processor.
+
+- AUTH0_URL
+- AUTH0_AUDIENCE
+- TOKEN_CACHE_TIME
+- AUTH0_CLIENT_ID
+- AUTH0_CLIENT_SECRET
+- AUTH0_PROXY_SERVER_URL
 
 ## Local Deployment with Docker
 
