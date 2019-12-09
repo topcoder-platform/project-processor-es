@@ -17,6 +17,15 @@ module.exports = {
   DELETE_DATA_TOPIC: process.env.DELETE_DATA_TOPIC || 'project.action.delete',
   KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'project-api',
 
+  MEMBER_SERVICE_ENDPOINT: process.env.MEMBER_SERVICE_ENDPOINT || 'https://api.topcoder-dev.com/v3/members',
+
+  AUTH0_URL: process.env.AUTH0_URL,
+  AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
+  TOKEN_CACHE_TIME: process.env.TOKEN_CACHE_TIME,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+
   esConfig: {
     HOST: process.env.ES_HOST || 'localhost:9200',
     AWS_REGION: process.env.AWS_REGION || 'us-east-1', // AWS Region to be used if we use AWS ES

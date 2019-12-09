@@ -53,8 +53,15 @@ async function create (message) {
   async function updateDocPromise (doc) {
     const members = _.isArray(doc._source.members) ? doc._source.members : []
     const existingMemberIndex = _.findIndex(members, p => p.id === message.id)// if member does not exists already
+    console.log(message)
     if (existingMemberIndex === -1) {
-      members.push(message)
+      if (!message.userId) {
+        members.push(message)
+        return
+      }
+      const memberDetails = await helper.getMemberDetailsByUserIds([message.userId])
+      const messageWithDetails = _.merge(message, _.pick(memberDetails[0], 'handle', 'firstName', 'lastName', 'email'))
+      members.push(messageWithDetails)
     } else { // if member already exists, ideally we should never land here, but code handles the buggy indexing
       // replaces the old inconsistent index where previously member was not removed from the index but deleted
       // from the database
