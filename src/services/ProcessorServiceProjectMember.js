@@ -53,12 +53,30 @@ async function create (message) {
   async function updateDocPromise (doc) {
     const members = _.isArray(doc._source.members) ? doc._source.members : []
     const existingMemberIndex = _.findIndex(members, p => p.id === message.id)// if member does not exists already
+    let member = message
+
+    // try to populate member with user details
+    // the code should move on, as it's not critical and is only used for searching at the moment
+    try {
+      const membersDetails = await helper.getMemberDetailsByUserIds([message.userId])
+      const memberDetails = membersDetails[0]
+      if (memberDetails) {
+        member = _.merge(message, _.pick(memberDetails, 'handle', 'firstName', 'lastName', 'email'))
+        logger.debug(`Successfully got user details for member (userId:${message.userId})`)
+      } else {
+        throw new Error(`Didn't fine user details for member (userId:${message.userId})`)
+      }
+    } catch (err) {
+      logger.error(`Cannot populate member (userId:${message.userId}) with user details.`)
+      logger.debug(`Error during populating member (userId:${message.userId}) with user details`, err)
+    }
+
     if (existingMemberIndex === -1) {
-      members.push(message)
+      members.push(member)
     } else { // if member already exists, ideally we should never land here, but code handles the buggy indexing
       // replaces the old inconsistent index where previously member was not removed from the index but deleted
       // from the database
-      members.splice(existingMemberIndex, 1, message)
+      members.splice(existingMemberIndex, 1, member)
     }
     return _.assign(doc._source, { members })
   }

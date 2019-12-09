@@ -5,12 +5,26 @@
 const AWS = require('aws-sdk')
 const config = require('config')
 const elasticsearch = require('elasticsearch')
+const _ = require('lodash')
+const tcCoreLib = require('tc-core-library-js')
+const urlencode = require('urlencode')
 
 const logger = require('./logger')
 
 AWS.config.region = config.get('esConfig.AWS_REGION')
 // ES Client mapping
 const esClients = {}
+
+const m2m = tcCoreLib.auth.m2m(config)
+const tcCoreLibUtil = tcCoreLib.util(config)
+
+/**
+ * Get machine to machine token.
+ * @returns {Promise} promise which resolves to the m2m token
+ */
+async function getM2MToken () {
+  return m2m.getMachineToken(config.AUTH0_CLIENT_ID, config.AUTH0_CLIENT_SECRET)
+}
 
 /**
  * Get ES Client
@@ -126,9 +140,35 @@ async function updateMetadadaESPromise (updateDocHandler) {
   })
 }
 
+/**
+ * Retrieve member details from userIds
+ *
+ * @param {Array} userIds the list of userIds
+ * @returns {Promise} the member details
+ */
+async function getMemberDetailsByUserIds (userIds) {
+  try {
+    const token = await getM2MToken()
+    const httpClient = tcCoreLibUtil.getHttpClient({ id: `projectMemberService_${userIds.join('_')}`, log: logger })
+    return httpClient.get(`${config.MEMBER_SERVICE_ENDPOINT}/_search`, {
+      params: {
+        query: `${_.map(userIds, id => `userId:${id}`).join(urlencode(' OR ', 'utf8'))}`,
+        fields: 'userId,handle,firstName,lastName,email'
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => _.get(res, 'data.result.content', null))
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
 module.exports = {
   getESClient,
   updateProjectESPromise,
   updateTimelineESPromise,
-  updateMetadadaESPromise
+  updateMetadadaESPromise,
+  getMemberDetailsByUserIds
 }
