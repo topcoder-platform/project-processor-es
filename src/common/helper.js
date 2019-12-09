@@ -6,7 +6,7 @@ const AWS = require('aws-sdk')
 const config = require('config')
 const elasticsearch = require('elasticsearch')
 const _ = require('lodash')
-const tcCoreLibAuth = require('tc-core-library-js')
+const tcCoreLib = require('tc-core-library-js')
 const urlencode = require('urlencode')
 
 const logger = require('./logger')
@@ -15,18 +15,14 @@ AWS.config.region = config.get('esConfig.AWS_REGION')
 // ES Client mapping
 const esClients = {}
 
-const m2mAuth = tcCoreLibAuth.auth.m2m
-const util = tcCoreLibAuth.util(config)
-let m2m = null
+const m2m = tcCoreLib.auth.m2m(config)
+const tcCoreLibUtil = tcCoreLib.util(config)
 
 /**
  * Get machine to machine token.
  * @returns {Promise} promise which resolves to the m2m token
  */
 async function getM2MToken () {
-  if (_.isNull(m2m)) {
-    m2m = m2mAuth(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_TIME', 'AUTH0_PROXY_SERVER_URL']))
-  }
   return m2m.getMachineToken(config.AUTH0_CLIENT_ID, config.AUTH0_CLIENT_SECRET)
 }
 
@@ -153,7 +149,7 @@ async function updateMetadadaESPromise (updateDocHandler) {
 async function getMemberDetailsByUserIds (userIds) {
   try {
     const token = await getM2MToken()
-    const httpClient = util.getHttpClient({ id: `projectMemberService_${userIds.join('_')}`, log: logger })
+    const httpClient = tcCoreLibUtil.getHttpClient({ id: `projectMemberService_${userIds.join('_')}`, log: logger })
     return httpClient.get(`${config.MEMBER_SERVICE_ENDPOINT}/_search`, {
       params: {
         query: `${_.map(userIds, id => `userId:${id}`).join(urlencode(' OR ', 'utf8'))}`,
