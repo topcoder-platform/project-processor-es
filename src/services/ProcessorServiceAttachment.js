@@ -40,7 +40,7 @@ function createSchema () {
     category: Joi.string().optional().allow(null).allow(''),
     size: Joi.number().optional().allow(null),
     contentType: Joi.string().required(),
-    downloadUrl: Joi.string().required()
+    filePath: Joi.string().required()
   })
 }
 
