@@ -34,8 +34,8 @@ function createSchema () {
     name: Joi.string().required(),
     description: Joi.string().allow(null).allow('').optional(),
     type: Joi.string().max(45).required(),
-    createdBy: Joi.number().integer().positive().required(), // user handle
-    updatedBy: Joi.number().integer().positive().required(), // user handle
+    createdBy: Joi.number().integer().positive().required(), // userId
+    updatedBy: Joi.number().integer().required(), // userId - can be negative for M2M tokens
     challengeEligibility: Joi.array().items(Joi.object().keys({
       role: Joi.string().valid('submitter', 'reviewer', 'copilot'),
       users: Joi.array().items(Joi.number().positive()),
