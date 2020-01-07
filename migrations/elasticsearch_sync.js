@@ -359,6 +359,12 @@ function getRequestBody (indexName) {
             type: 'string',
             index: 'not_analyzed'
           },
+          subCategory: {
+            type: 'string'
+          },
+          metadata: {
+            type: 'object'
+          },
           name: {
             type: 'string'
           },
