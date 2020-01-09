@@ -423,6 +423,16 @@ describe('TC Project Template Topic Tests', () => {
       _.keys(_.omit(projectTemplateCreatedMessage.payload, ['resource'])))
   })
 
+  it('create project template add subCategory and metadata correctly', async () => {
+    await ProcessorService.create(projectTemplateCreatedMessage)
+    const data = await testHelper.getMetadataESData(metadataId)
+    let projectTemplate = _.find(data.projectTemplates, { id: projectTemplateId })
+    expect(projectTemplate).to.have.property('subCategory')
+    expect(projectTemplate).to.have.property('metadata')
+    expect(projectTemplate.subCategory).to.eql('app')
+    expect(projectTemplate.metadata).to.eql({})
+  })
+
   it('create project template message - already exists', async () => {
     await ProcessorService.create(projectTemplateCreatedMessage)
     const data = await testHelper.getMetadataESData(metadataId)
