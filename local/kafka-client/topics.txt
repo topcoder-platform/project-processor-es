@@ -1,0 +1,3 @@
+project.action.create
+project.action.delete
+project.action.update
