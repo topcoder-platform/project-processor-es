@@ -5,14 +5,14 @@ services:
     ports:
       - "9200:9200"
   zookeeper:
-    image: confluent/zookeeper
+    image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
     environment:
       zk_id: "1"
   kafka:
     image: wurstmeister/kafka
-    container_name: tc-projects-kafka
+    container_name: project-processor-es-kafka
     depends_on:
       - zookeeper
     ports:
