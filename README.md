@@ -122,7 +122,7 @@ npm run test:cov
 - Call our project root directory : `our_project_root_directory`
 - Start Docker servicees, initialize Elasticsearch, start processor app
 - Send message:
-    `docker exec -i tc-projects-kafka /opt/kafka//bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092 < our_project_root_directory/test/data/project/project.action.create.json`
+    `docker exec -i project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092 < our_project_root_directory/test/data/project/project.action.create.json`
 - run command `npm run view-data projects 1` to view the created data, you will see the data are properly created:
 
 ```bash
@@ -176,7 +176,7 @@ info: {
 
 - Run the producer and then write some invalid message into the console to send to the `project.action.create` topic:
 
-  `docker exec -it tc-projects-kafka /opt/kafka//bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092`
+  `docker exec -it project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092`
   in the console, write message, one message per line:
   `{ "topic": "project.action.create", "originator": "project-api", "timestamp": "2019-02-16T00:00:00", "mime-type": "application/json", "payload": { "id": "invalid", "typeId": "8e17090c-465b-4c17-b6d9-dfa16300b0ff", "track": "Code", "name": "test", "description": "desc", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0aa", "phases": [{ "id": "8e17090c-465b-4c17-b6d9-dfa16300b012", "name": "review", "isActive": true, "duration": 10000 }], "prizeSets": [{ "type": "prize", "prizes": [{ "type": "winning prize", "value": 500 }] }], "reviewType": "code review", "tags": ["code"], "projectId": 123, "forumId": 456, "status": "Active", "created": "2019-02-16T00:00:00", "createdBy": "admin" } }`
 
@@ -187,7 +187,7 @@ info: {
 
 - Sent message to update data:
 
-   `docker exec -i tc-projects-kafka /opt/kafka//bin/kafka-console-producer.sh --topic project.action.update --broker-list localhost:9092 < our_project_root_directory/test/data/project/project.action.update.json`
+   `docker exec -i project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic project.action.update --broker-list localhost:9092 < our_project_root_directory/test/data/project/project.action.update.json`
 - Run command `npm run view-data projects 1` to view the updated data, you will see the data are properly updated:
 
 ```bash
@@ -242,7 +242,7 @@ info: {
 
 
 - Run the producer and then write some invalid message into the console to send to the `project.action.create` topic:
-  `docker exec -it tc-projects-kafka /opt/kafka//bin/kafka-console-producer.sh --topic project.action.create`
+  `docker exec -it project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic project.action.create`
   in the console, write message, one message per line:
   `{ "topic": "project.action.update", "originator": "project-api", "timestamp": "2019-02-17T01:00:00", "mime-type": "application/json", "payload": { "id": "173803d3-019e-4033-b1cf-d7205c7f774c", "typeId": "123", "track": "Code", "name": "test3", "description": "desc3", "timelineTemplateId": "8e17090c-465b-4c17-b6d9-dfa16300b0dd", "groups": ["group2", "group3"], "updated": "2019-02-17T01:00:00", "updatedBy": "admin" } }`
 
@@ -265,31 +265,31 @@ If you've used `docker-compose` with the file `local/docker-compose.yml` to spaw
 **Create Topic**
 
 ```bash
-docker exec tc-projects-kafka /opt/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic TOPIC_NAME
+docker exec project-services-es-kafka /opt/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic TOPIC_NAME
 ```
 
 **List Topics**
 
 ```bash
-docker exec tc-projects-kafka /opt/kafka/bin/kafka-topics.sh --list --zookeeper zookeeper:2181
+docker exec project-services-es-kafka /opt/kafka/bin/kafka-topics.sh --list --zookeeper zookeeper:2181
 ```
 
 **Watch Topic**
 
 ```bash
-docker exec  tc-projects-kafka /opt/kafka/bin/kafka-console-consumer --bootstrap-server localhost:9092 --zookeeper zookeeper:2181 --topic TOPIC_NAME
+docker exec  project-services-es-kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --zookeeper zookeeper:2181 --topic TOPIC_NAME
 ```
 
 **Post Message to Topic**
 
 ```bash
-docker exec -it tc-projects-kafka /opt/kafka/bin/kafka-console-producer --topic TOPIC_NAME --broker-list localhost:9092
+docker exec -it project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic TOPIC_NAME --broker-list localhost:9092
 ```
 The message can be passed using `stdin`
 
 ### Test
 ```bash
-docker exec -i tc-projects-kafka /opt/kafka//bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092 < test_message.json
+docker exec -i project-services-es-kafka /opt/kafka/bin/kafka-console-producer.sh --topic project.action.create --broker-list localhost:9092 < test_message.json
 
 ```
 All example for messages are in: our_project_root_directory/test/data
