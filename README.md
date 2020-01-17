@@ -39,13 +39,13 @@
 
 3. Set environment variables for M2M authentication: `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_URL`, `AUTH0_AUDIENCE`, `AUTH0_PROXY_SERVER_URL`:
 
-  ```bash
-  export AUTH0_CLIENT_ID=<insert required value here>
-  export AUTH0_CLIENT_SECRET=<insert required value here>
-  export AUTH0_URL=<insert required value here>
-  export AUTH0_AUDIENCE=<insert required value here>
-  export AUTH0_PROXY_SERVER_URL=<insert required value here>
-  ```
+   ```bash
+   export AUTH0_CLIENT_ID=<insert required value here>
+   export AUTH0_CLIENT_SECRET=<insert required value here>
+   export AUTH0_URL=<insert required value here>
+   export AUTH0_AUDIENCE=<insert required value here>
+   export AUTH0_PROXY_SERVER_URL=<insert required value here>
+   ```
 
 4. Initialize Elasticsearch indexes:
 
@@ -55,9 +55,9 @@
 
 5. Start processor app:
 
-  ```bash
-  npm start
-  ```
+   ```bash
+   npm start
+   ```
 
 ## Commands
 
