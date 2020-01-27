@@ -43,7 +43,11 @@ function createSchema () {
     })).allow(null),
     bookmarks: Joi.array().items(Joi.object().keys({
       title: Joi.string(),
-      address: Joi.string().regex(REGEX.URL)
+      address: Joi.string().regex(REGEX.URL),
+      createdAt: Joi.date(),
+      createdBy: Joi.number().integer().positive(),
+      updatedAt: Joi.date(),
+      updatedBy: Joi.number().integer().positive(),
     })).optional().allow(null),
     external: Joi.object().keys({
       id: Joi.string(),
