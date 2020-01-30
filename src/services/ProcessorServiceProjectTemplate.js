@@ -62,7 +62,7 @@ function createSchema () {
     metadata: Joi.object(),
     icon: Joi.string().max(255).required(),
     question: Joi.string().max(255).required(),
-    info: Joi.string().max(255).required(),
+    info: Joi.string().max(1024).required(),
     aliases: Joi.array().required()
   })
   // TODO rewrite these condition so only one of these must be "present" and "not-null"
