@@ -47,7 +47,7 @@ function createSchema () {
     displayName: Joi.string().max(255).required(),
     icon: Joi.string().max(255).required(),
     question: Joi.string().max(255).required(),
-    info: Joi.string().max(255).required(),
+    info: Joi.string().max(1024).required(),
     aliases: Joi.array().required()
   })
     .unknown(true)
