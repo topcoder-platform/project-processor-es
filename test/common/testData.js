@@ -100,6 +100,9 @@ const projectMemberInviteCreatedMessage = require(
 const projectMemberInviteUpdatedMessage = require(
   '../data/project.member.invite/project.action.update.json'
 )
+const projectMemberInviteDeletedMessage = require(
+  '../data/project.member.invite/project.action.delete.json'
+)
 const orgConfigCreatedMessage = require('../data/project.orgConfig/project.action.create.json')
 const orgConfigUpdatedMessage = require('../data/project.orgConfig/project.action.update.json')
 const orgConfigDeletedMessage = require('../data/project.orgConfig/project.action.delete.json')
@@ -202,6 +205,7 @@ module.exports = {
   orgConfigDeletedMessage,
   projectMemberInviteUpdatedMessage,
   projectMemberInviteCreatedMessage,
+  projectMemberInviteDeletedMessage,
   projectMemberUpdatedMessage,
   projectMemberCreatedMessage,
   projectMemberDeletedMessage,
