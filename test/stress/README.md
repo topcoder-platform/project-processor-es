@@ -1,17 +1,25 @@
 ## Configuration
 
-* STRESS_BASIC_QTY: As requested in challenge description
+* `STRESS_BASIC_QTY`: As requested in challenge description
 
-* STRESS_TESTER_TIMEOUT: Number of seconds to wait after queueing create/update/delete requests
-and before validating data. Default is 80s, which is enough for `STRESS_BASIC_QTY=100`. This
-might have to be increased if `STRESS_BASIC_QTY` is higher than 100.
+* `STRESS_TESTER_TIMEOUT`: Number of seconds to wait after queueing create/update/delete requests and before validating data. Default is 80s, which is enough for `STRESS_BASIC_QTY=100`. This might have to be increased if `STRESS_BASIC_QTY` is higher than 100.
 
-## Validation
+## Run
 
-* Start processor:
+* Start processor
 
-    npm start
+  It should point the **test** ES, so set `NODE_ENV=test`.
 
-* Run `npm run test:stress`
+   ```
+   NODE_ENV=test npm start
+   ```
 
-Saves ids of milestones not updated/created/deleted to `test/stress/stress_test_errors.json`
+* Run stress test
+
+  It would test using **test** ES, as this command sets `NODE_ENV=test`.
+
+  ```
+  npm run test:stress
+  ```
+
+I would save ids of milestones not updated/created/deleted to `test/stress/stress_test_errors.json`

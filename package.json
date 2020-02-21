@@ -11,7 +11,7 @@
     "view-data": "node test/common/view-data.js",
     "test": "NODE_ENV=test npm run sync:es && mocha test/e2e/*.test.js --timeout 30000 --exit && NODE_ENV=test npm run sync:es",
     "test:cov": "nyc --reporter=html --reporter=text npm test",
-    "test:stress": "npm run sync:es && node test/stress/doTest.js"
+    "test:stress": "NODE_ENV=test npm run sync:es && NODE_ENV=test node test/stress/doTest.js"
   },
   "author": "TCSCODER",
   "license": "none",

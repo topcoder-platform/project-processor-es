@@ -6,254 +6,249 @@ const testHelper = require('../common/testHelper')
 const _ = require('lodash')
 const moment = require('moment')
 const constants = require('../../src/constants')
-const fs = require('fs')
 
 const producer = new Kafka.Producer({
   connectionString: config.KAFKA_URL,
   handlerConcurrency: 1,
-  groupId: "project-api"
+  groupId: 'project-api'
 })
 
-const es_client = helper.getESClient()
+const esClient = helper.getESClient()
 
-async function createTimeline() {
-  let now = moment().format();
+async function createTimeline () {
+  let now = moment().format()
 
-  const timeline_payload = {
-    "resource": constants.RESOURCES.TIMELINE,
-    "createdAt": now,
-    "updatedAt": now,
-    "timestamp": now,
-    "id": "1",
-    "name": "stress test timeline",
-    "description": "description",
-    "startDate": now,
-    "endDate": moment().add(7, "days").format(),
-    "reference": "project",
-    "referenceId": 1,
-    "createdBy": 40051336,
-    "updatedBy": 40051336,
-    "milestones": []
+  const timelinePayload = {
+    'resource': constants.RESOURCES.TIMELINE,
+    'createdAt': now,
+    'updatedAt': now,
+    'timestamp': now,
+    'id': '1',
+    'name': 'stress test timeline',
+    'description': 'description',
+    'startDate': now,
+    'endDate': moment().add(7, 'days').format(),
+    'reference': 'project',
+    'referenceId': 1,
+    'createdBy': 40051336,
+    'updatedBy': 40051336,
+    'milestones': []
   }
 
-  const last_end_date = moment().add(3, "hours")
+  const lastEndDate = moment().add(3, 'hours')
 
   _.forEach(_.range(1, config.STRESS_BASIC_QTY * 2 + 1), (i) => {
-
-    const milestone_payload = {
-      "resource": constants.RESOURCES.MILESTONE,
-      "timelineId": "1",
-      "createdAt": now,
-      "updatedAt": now,
-      "startDate": last_end_date.format(),
-      "createdBy": 40051333,
-      "updatedBy": 40051333,
-      "hidden": false,
-      "id": i,
-      "name": "original milestone " + i,
-      "description": "description",
-      "duration": 3,
-      "completionDate": "2021-06-30T00:00:00.000Z",
-      "status": "open",
-      "type": "type3",
-      "details": {
-        "detail1": {
-          "subDetail1C": 3
+    const milestonePayload = {
+      'resource': constants.RESOURCES.MILESTONE,
+      'timelineId': '1',
+      'createdAt': now,
+      'updatedAt': now,
+      'startDate': lastEndDate.format(),
+      'createdBy': 40051333,
+      'updatedBy': 40051333,
+      'hidden': false,
+      'id': i,
+      'name': 'original milestone ' + i,
+      'description': 'description',
+      'duration': 3,
+      'completionDate': '2021-06-30T00:00:00.000Z',
+      'status': 'open',
+      'type': 'type3',
+      'details': {
+        'detail1': {
+          'subDetail1C': 3
         },
-        "detail2": [
+        'detail2': [
           2,
           3,
           4
         ]
       },
-      "order": 1,
-      "plannedText": "plannedText 3",
-      "activeText": "activeText 3",
-      "completedText": "completedText 3",
-      "blockedText": "blockedText 3",
-      "actualStartDate": null
+      'order': 1,
+      'plannedText': 'plannedText 3',
+      'activeText': 'activeText 3',
+      'completedText': 'completedText 3',
+      'blockedText': 'blockedText 3',
+      'actualStartDate': null
     }
 
-    last_end_date.add(4, "hours")
+    lastEndDate.add(4, 'hours')
 
-    milestone_payload.endDate = last_end_date.format()
+    milestonePayload.endDate = lastEndDate.format()
 
-    timeline_payload.milestones.push(milestone_payload)
+    timelinePayload.milestones.push(milestonePayload)
   })
 
-  return es_client.create({
+  return esClient.create({
     index: config.get('esConfig.ES_TIMELINE_INDEX'),
     type: config.get('esConfig.ES_TYPE'),
-    id: "1",
-    body: timeline_payload
+    id: '1',
+    body: timelinePayload,
+    refresh: 'wait_for'
   })
 }
 
-function shuffleArray(array) {
+function shuffleArray (array) {
   for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    var j = Math.floor(Math.random() * (i + 1))
+    var temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
   }
   return array
 }
 
-async function deleteMilestones(ids) {
-  const deletion_requests = _.map(ids, (i) => {
-
+async function deleteMilestones (ids) {
+  const deletionRequests = _.map(ids, (i) => {
     const payload = {
-      "resource": constants.RESOURCES.MILESTONE,
-      "timelineId": "1",
-      "id": i
+      'resource': constants.RESOURCES.MILESTONE,
+      'timelineId': '1',
+      'id': i
     }
 
-    const delete_msg = {
-      "topic": config.DELETE_DATA_TOPIC,
-      "originator": "project-api",
-      "timestamp": moment().format(),
-      "mime-type": "application/json",
-      "payload": payload
+    const deleteMsg = {
+      'topic': config.DELETE_DATA_TOPIC,
+      'originator': 'project-api',
+      'timestamp': moment().format(),
+      'mime-type': 'application/json',
+      'payload': payload
     }
     return producer.send({
-      "topic": config.DELETE_DATA_TOPIC,
-      "message": {
-        "value": JSON.stringify(delete_msg)
+      'topic': config.DELETE_DATA_TOPIC,
+      'message': {
+        'value': JSON.stringify(deleteMsg)
       }
     })
   })
-  return Promise.all(deletion_requests)
+  return Promise.all(deletionRequests)
 }
 
-async function updateMilestones(ids) {
+async function updateMilestones (ids) {
   const now = moment().format()
 
-  const update_requests = _.map(ids, (i) => {
-
+  const updateRequests = _.map(ids, (i) => {
     const payload = {
-      "resource": constants.RESOURCES.MILESTONE,
-      "timelineId": "1",
-      "id": i,
-      "name": "updated milestone " + i,
-      "duration": 4,
-      "status": "open",
-      "type": "type3",
-      "order": 1,
-      "plannedText": "planned text 3",
-      "activeText": "active text 3",
-      "completedText": " completed text 3",
-      "blockedText": "blocked text 3"
+      'resource': constants.RESOURCES.MILESTONE,
+      'timelineId': '1',
+      'id': i,
+      'name': 'updated milestone ' + i,
+      'duration': 4,
+      'status': 'open',
+      'type': 'type3',
+      'order': 1,
+      'plannedText': 'planned text 3',
+      'activeText': 'active text 3',
+      'completedText': ' completed text 3',
+      'blockedText': 'blocked text 3'
     }
-    const update_msg = {
-      "topic": config.UPDATE_DATA_TOPIC,
-      "originator": "project-api",
-      "timestamp": moment().format(),
-      "mime-type": "application/json",
-      "payload": payload
+    const updateMsg = {
+      'topic': config.UPDATE_DATA_TOPIC,
+      'originator': 'project-api',
+      'timestamp': now,
+      'mime-type': 'application/json',
+      'payload': payload
     }
     return producer.send({
-      "topic": config.UPDATE_DATA_TOPIC,
-      "message": {
-        "value": JSON.stringify(update_msg)
+      'topic': config.UPDATE_DATA_TOPIC,
+      'message': {
+        'value': JSON.stringify(updateMsg)
       }
     })
   })
 
-  return Promise.all(update_requests)
+  return Promise.all(updateRequests)
 }
 
-async function createNewMilestones(ids) {
+async function createNewMilestones (ids) {
   const now = moment().format()
-  const last_end_date = moment().add(10, "hours")
+  const lastEndDate = moment().add(10, 'hours')
 
-  const milestone_create_requests = _.map(ids, (i) => {
-
-    const milestone_payload = {
-      "resource": constants.RESOURCES.MILESTONE,
-      "timelineId": "1",
-      "createdAt": now,
-      "updatedAt": now,
-      "startDate": last_end_date.format(),
-      "createdBy": 40051333,
-      "updatedBy": 40051333,
-      "hidden": false,
-      "id": i,
-      "name": "new milestone " + i,
-      "description": "description",
-      "duration": 3,
-      "completionDate": "2021-06-30T00:00:00.000Z",
-      "status": "open",
-      "type": "type3",
-      "details": {
-        "detail1": {
-          "subDetail1C": 3
+  const milestoneCreateRequests = _.map(ids, (i) => {
+    const milestonePayload = {
+      'resource': constants.RESOURCES.MILESTONE,
+      'timelineId': '1',
+      'createdAt': now,
+      'updatedAt': now,
+      'startDate': lastEndDate.format(),
+      'createdBy': 40051333,
+      'updatedBy': 40051333,
+      'hidden': false,
+      'id': i,
+      'name': 'new milestone ' + i,
+      'description': 'description',
+      'duration': 3,
+      'completionDate': '2021-06-30T00:00:00.000Z',
+      'status': 'open',
+      'type': 'type3',
+      'details': {
+        'detail1': {
+          'subDetail1C': 3
         },
-        "detail2": [
+        'detail2': [
           2,
           3,
           4
         ]
       },
-      "order": 1,
-      "plannedText": "plannedText 3",
-      "activeText": "activeText 3",
-      "completedText": "completedText 3",
-      "blockedText": "blockedText 3",
-      "actualStartDate": null
+      'order': 1,
+      'plannedText': 'plannedText 3',
+      'activeText': 'activeText 3',
+      'completedText': 'completedText 3',
+      'blockedText': 'blockedText 3',
+      'actualStartDate': null
     }
 
-    last_end_date.add(4, "hours")
+    lastEndDate.add(4, 'hours')
 
-    milestone_payload.endDate = last_end_date.format()
+    milestonePayload.endDate = lastEndDate.format()
 
-    const create_msg = {
-      "topic": config.CREATE_DATA_TOPIC,
-      "originator": "project-api",
-      "timestamp": moment().format(),
-      "mime-type": "application/json",
-      "payload": milestone_payload
+    const createMsg = {
+      'topic': config.CREATE_DATA_TOPIC,
+      'originator': 'project-api',
+      'timestamp': moment().format(),
+      'mime-type': 'application/json',
+      'payload': milestonePayload
     }
 
     return producer.send({
-      "topic": config.CREATE_DATA_TOPIC,
-      "message": {
-        "value": JSON.stringify(create_msg)
+      'topic': config.CREATE_DATA_TOPIC,
+      'message': {
+        'value': JSON.stringify(createMsg)
       }
     })
   })
 
-  return Promise.all(milestone_create_requests)
+  return Promise.all(milestoneCreateRequests)
 }
 
-async function sleep(n) {
+async function sleep (n) {
   return new Promise((resolve) => {
     setTimeout(resolve, n)
   })
 }
 
-async function main() {
+async function main () {
   await producer.init()
+  console.log('Creating initial data...')
   await createTimeline()
-
-  console.log(`waiting for 5 seconds for timeline to be created`)
-  await sleep(5000)
-  console.log("queueing milestone operations")
+  console.log('Initial data is created.')
 
   const ids = shuffleArray(_.range(1, config.STRESS_BASIC_QTY * 2 + 1))
-  const ids_to_delete = ids.slice(0, config.STRESS_BASIC_QTY)
-  const ids_to_create = _.map(ids_to_delete, (i) => i + 10000)
-  const ids_to_update = ids.slice(config.STRESS_BASIC_QTY)
+  const idsToDelete = ids.slice(0, config.STRESS_BASIC_QTY)
+  const idsToCreate = _.map(idsToDelete, (i) => i + 10000)
+  const idsToUpdate = ids.slice(config.STRESS_BASIC_QTY)
 
+  console.log('Running multiple operations...')
   await Promise.all([
-    deleteMilestones(ids_to_delete),
-    updateMilestones(ids_to_update),
-    createNewMilestones(ids_to_create)
+    deleteMilestones(idsToDelete),
+    updateMilestones(idsToUpdate),
+    createNewMilestones(idsToCreate)
   ])
 
-  console.log(`waiting for ${config.STRESS_TESTER_TIMEOUT} seconds...`)
+  console.log(`Waiting for ${config.STRESS_TESTER_TIMEOUT} seconds before validating the result data...`)
   await sleep(1000 * config.STRESS_TESTER_TIMEOUT)
 
-  const timeline = await testHelper.getTimelineESData("1")
+  const timeline = await testHelper.getTimelineESData('1')
 
   const milestones = {}
 
@@ -261,38 +256,27 @@ async function main() {
     milestones[ms.id] = ms
   })
 
-  const errors = {
-    deletion: [],
-    updates: [],
-    creation: []
-  }
-
-  _.forEach(ids_to_delete, (i) => {
+  _.forEach(idsToDelete, (i) => {
     if (milestones[i]) {
-      console.log(`milestone with id: ${i} not deleted`)
-      errors.deletion.push(i)
+      console.error(`milestone with id: ${i} not deleted`)
     }
   })
 
-  _.forEach(ids_to_update, (i) => {
-    if (! (milestones[i] && milestones[i].name == 'updated milestone ' + i)) {
-      console.log(`milestone with id: ${i} not updated`)
-      errors.updates.push(i)
+  _.forEach(idsToUpdate, (i) => {
+    if (!(milestones[i] && milestones[i].name === 'updated milestone ' + i)) {
+      console.error(`milestone with id: ${i} not updated`)
     }
   })
 
-  _.forEach(ids_to_create, (i) => {
-    if (! (milestones[i] && milestones[i].name == 'new milestone ' + i)) {
-      console.log(`milestone with id: ${i} not created`)
-      errors.creation.push(i)
+  _.forEach(idsToCreate, (i) => {
+    if (!(milestones[i] && milestones[i].name === 'new milestone ' + i)) {
+      console.error(`milestone with id: ${i} not created`)
     }
   })
-
-  fs.writeFileSync(__dirname + "/stress_test_errors.json", JSON.stringify(errors, null, 4))
 }
 
 main().then(() => {
-  console.log("done")
+  console.log('done')
   process.exit(0)
 }, (e) => {
   console.log(e)
