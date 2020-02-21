@@ -93,9 +93,9 @@ async function create (message) {
   //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
   //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
   //
-  // await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
-  // logger.debug(`Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
-  logger.debug(`TEMPORARY SKIPPED: Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
+  logger.debug(`Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  // logger.debug(`TEMPORARY SKIPPED: Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
 }
 
 create.schema = {
@@ -124,9 +124,9 @@ async function update (message) {
   //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
   //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
   //
-  // await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
-  // logger.debug(`Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
-  logger.debug(`TEMPORARY SKIPPED: Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
+  logger.debug(`Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  // logger.debug(`TEMPORARY SKIPPED: Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
 }
 
 update.schema = {
