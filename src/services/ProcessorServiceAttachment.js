@@ -41,7 +41,7 @@ function createSchema () {
   return updateSchema().keys({
     category: Joi.string().optional().allow(null).allow(''),
     size: Joi.number().optional().allow(null),
-    contentType: Joi.string().when('type', { is: constants.ATTACHMENT_TYPES.FILE, then: Joi.string().required() }),
+    contentType: Joi.string().optional().allow(null).when('type', { is: constants.ATTACHMENT_TYPES.FILE, then: Joi.string().required() }),
     path: Joi.string().required(),
     type: Joi.string().valid(_.values(constants.ATTACHMENT_TYPES)),
     tags: Joi.array().items(Joi.string()).optional().allow(null)
