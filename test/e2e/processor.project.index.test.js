@@ -23,6 +23,7 @@ const {
   projectMemberInviteId,
   projectMemberInviteUpdatedMessage,
   projectMemberInviteCreatedMessage,
+  projectMemberInviteDeletedMessage,
   projectMemberUpdatedMessage,
   projectMemberCreatedMessage,
   projectMemberDeletedMessage,
@@ -887,6 +888,24 @@ describe('TC Project Member Invite Topic Tests', () => {
     const message = _.cloneDeep(projectMemberInviteUpdatedMessage)
     message.payload.id = notFoundId
     await ProcessorService.update(message)
+    const data = await testHelper.getProjectESData(projectId)
+    expect(_.find(data.invites, { id: notFoundId })).to.be.an('undefined')
+  })
+
+  it('delete project member invite message', async () => {
+    await ProcessorService.create(projectMemberInviteCreatedMessage)
+    let data = await testHelper.getProjectESData(projectId)
+    testHelper.expectObj(_.find(data.invites, { id: projectMemberInviteId }), projectMemberInviteCreatedMessage.payload,
+      _.keys(_.omit(projectMemberInviteCreatedMessage.payload, ['resource'])))
+    await ProcessorService.deleteMessage(projectMemberInviteDeletedMessage)
+    data = await testHelper.getProjectESData(projectId)
+    expect(_.find(data.invites, { id: projectMemberInviteId })).to.be.an('undefined')
+  })
+
+  it('delete project member invite message - not found', async () => {
+    const message = _.cloneDeep(projectMemberInviteDeletedMessage)
+    message.payload.id = notFoundId
+    await ProcessorService.deleteMessage(message)
     const data = await testHelper.getProjectESData(projectId)
     expect(_.find(data.invites, { id: notFoundId })).to.be.an('undefined')
   })

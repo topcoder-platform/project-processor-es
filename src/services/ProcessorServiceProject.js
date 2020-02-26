@@ -47,7 +47,7 @@ function createSchema () {
       createdAt: Joi.date(),
       createdBy: Joi.number().integer().positive(),
       updatedAt: Joi.date(),
-      updatedBy: Joi.number().integer().positive(),
+      updatedBy: Joi.number().integer().positive()
     })).optional().allow(null),
     external: Joi.object().keys({
       id: Joi.string(),
