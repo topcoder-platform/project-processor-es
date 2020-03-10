@@ -165,10 +165,34 @@ async function getMemberDetailsByUserIds (userIds) {
   }
 }
 
+/**
+ * Populate member with user details
+ *
+ * @param {Object} member the member object
+ * @returns {Object} the member object with details
+ */
+async function populateMemberWithUserDetails (member) {
+  try {
+    const membersDetails = await getMemberDetailsByUserIds([member.userId])
+    const memberDetails = membersDetails[0]
+    if (memberDetails) {
+      logger.debug(`Successfully got user details for member (userId:${member.userId})`)
+      return _.merge(member, _.pick(memberDetails, 'handle', 'firstName', 'lastName', 'email'))
+    } else {
+      throw new Error(`Didn't fine user details for member (userId:${member.userId})`)
+    }
+  } catch (err) {
+    logger.error(`Cannot populate member (userId:${member.userId}) with user details.`)
+    logger.debug(`Error during populating member (userId:${member.userId}) with user details`, err)
+    return member
+  }
+}
+
 module.exports = {
   getESClient,
   updateProjectESPromise,
   updateTimelineESPromise,
   updateMetadadaESPromise,
-  getMemberDetailsByUserIds
+  getMemberDetailsByUserIds,
+  populateMemberWithUserDetails
 }
