@@ -1,1 +1,1 @@
-{"topic":"project.action.update","originator":"project-api","timestamp":"2019-06-21T04:59:38.562Z","mime-type":"application/json","payload":{"resource":"project.member.invite","status":"pending","userId":40051331,"email":"test@topcoder.com","id":1,"projectId":1}}
+{"topic":"project.action.update","originator":"project-api","timestamp":"2019-06-21T04:59:38.562Z","mime-type":"application/json","payload":{"resource":"project.member.invite","status":"pending","userId":40051331,"email":"test@topcoder.com","hashEmail":"dummy_value","id":1,"projectId":1}}
