@@ -57,8 +57,10 @@ create.schema = {
 const updateInvitesPromise = message => async (doc) => {
   // now merge the updated changes and re-index the document
   const invites = _.isArray(doc._source.invites) ? doc._source.invites : []
-  _.remove(invites, invite => (!!message.email && invite.email === message.email) ||
-  (!!message.userId && invite.userId === message.userId))
+  const removedInvites = _.remove(invites, invite => message.id === invite.id)
+  if (!removedInvites.length) {
+    throw new Error(`Invite with id "${message.id}" is not found and not removed.`)
+  }
   return _.assign(doc._source, { invites })
 }
 
