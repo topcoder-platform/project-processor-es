@@ -93,6 +93,9 @@ function createSchema () {
  * @return {Promise} promise result
  */
 async function create (message) {
+  const member = await helper.populateMemberWithUserDetails(message.members[0])
+  message.members = [member]
+
   await client.create({
     index: config.get('esConfig.ES_PROJECT_INDEX'),
     type: config.get('esConfig.ES_TYPE'),

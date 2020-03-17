@@ -227,8 +227,7 @@ function getRequestBody (indexName) {
             type: 'string'
           },
           handle: {
-            type: 'string',
-            index: 'not_analyzed'
+            type: 'string'
           },
           id: {
             type: 'long'
