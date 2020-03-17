@@ -832,7 +832,7 @@ describe('TC Project Member Topic Tests', () => {
       _.keys(_.omit(projectMemberCreatedMessage.payload, ['resource'])))
   })
 
-  it('create project member message and remove not removed invite', async () => {
+  it('create project member message - already exists - remove not removed invite', async () => {
     // let's say we still have invite
     await ProcessorService.create(projectMemberInviteCreatedMessage)
     let data = await testHelper.getProjectESData(projectId)
