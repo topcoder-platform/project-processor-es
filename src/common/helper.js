@@ -188,11 +188,27 @@ async function populateMemberWithUserDetails (member) {
   }
 }
 
+/**
+ * Reusable method to generate a function which would remove invite from the project ES document.
+ *
+ * @param {Object} message invite update or delete message
+ */
+const removeInvitePromise = message => async (doc) => {
+  // now merge the updated changes and re-index the document
+  const invites = _.isArray(doc._source.invites) ? doc._source.invites : []
+  const removedInvites = _.remove(invites, { id: message.id })
+  if (!removedInvites.length) {
+    throw new Error(`Invite with id "${message.id}" is not found and not removed.`)
+  }
+  return _.assign(doc._source, { invites })
+}
+
 module.exports = {
   getESClient,
   updateProjectESPromise,
   updateTimelineESPromise,
   updateMetadadaESPromise,
   getMemberDetailsByUserIds,
-  populateMemberWithUserDetails
+  populateMemberWithUserDetails,
+  removeInvitePromise
 }
