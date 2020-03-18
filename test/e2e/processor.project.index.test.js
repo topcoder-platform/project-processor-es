@@ -832,6 +832,25 @@ describe('TC Project Member Topic Tests', () => {
       _.keys(_.omit(projectMemberCreatedMessage.payload, ['resource'])))
   })
 
+  it('create project member message - already exists - remove not removed invite', async () => {
+    // let's say we still have invite
+    await ProcessorService.create(projectMemberInviteCreatedMessage)
+    let data = await testHelper.getProjectESData(projectId)
+    // make sure that invite is there
+    testHelper.expectObj(_.find(data.invites, { id: projectMemberInviteId }), projectMemberInviteCreatedMessage.payload,
+      _.keys(_.omit(projectMemberInviteCreatedMessage.payload, ['resource'])))
+
+    // and we are adding a member (but invite is still there as we created above)
+    await ProcessorService.create(projectMemberCreatedMessage)
+    data = await testHelper.getProjectESData(projectId)
+
+    // check that member has been added
+    testHelper.expectObj(_.find(data.members, { id: projectMemberId }), projectMemberCreatedMessage.payload,
+      _.keys(_.omit(projectMemberCreatedMessage.payload, ['resource'])))
+    // and at the same time the invite for the member has been removed
+    expect(_.find(data.invites, { id: projectMemberInviteId })).to.be.an('undefined')
+  })
+
   it('update project member message', async () => {
     await ProcessorService.update(projectMemberUpdatedMessage)
     const data = await testHelper.getProjectESData(projectId)

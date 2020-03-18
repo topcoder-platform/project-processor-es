@@ -78,6 +78,35 @@ async function create (message) {
       // from the database
       members.splice(existingMemberIndex, 1, member)
     }
+
+    // sometimes we have issue that when member accepts invitation the invitation is somehow
+    // is not removed from the ES, so here we are making sure that invite is removed when we are adding member
+    try { // make sure that this logic never cause an error in member adding process
+      const invites = _.filter(doc._source.invites, (invite) => (
+        invite.email === member.email || invite.userId === member.userId
+      ))
+
+      if (invites.length > 0) {
+        logger.warn(`There are ${invites.length} invite(s) are not yet removed` +
+          ` for member.id: ${member.id} member.userId: ${member.userId}.`)
+
+        for (let i = 0; i < invites.length; i++) {
+          const invite = invites[i]
+          logger.debug(`Removing invite.id: ${invite.id} for member.id: ${member.id} member.userId: ${member.userId}.`)
+          try {
+            const message = { id: invite.id }
+            const updateDocHandler = helper.removeInvitePromise(message)
+            await updateDocHandler(doc)
+            logger.debug(`Successfully removed invite.id: ${invite.id}.`)
+          } catch (err) {
+            logger.error(`Failed removing invite.id: ${invite.id}. ${err}`)
+          }
+        }
+      }
+    } catch (err) {
+      logger.error(`Error during removing existent invites for added member: ${err}`)
+    }
+
     return _.assign(doc._source, { members })
   }
 
