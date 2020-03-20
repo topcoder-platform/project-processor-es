@@ -160,8 +160,6 @@ async function getMemberDetailsByUserIds (userIds) {
         Authorization: `Bearer ${token}`
       }
     }).then((res) => {
-      logger.debug(res)
-      console.log(res)
       return _.get(res, 'data.result.content', null)
     })
   } catch (err) {
