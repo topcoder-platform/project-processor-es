@@ -59,8 +59,9 @@ async function create (message) {
     // the code should move on, as it's not critical and is only used for searching at the moment
     try {
       const membersDetails = await helper.getMemberDetailsByUserIds([message.userId])
-      logger.debug(membersDetails, 'membersDetails')
+      logger.debug(membersDetails)
       const memberDetails = membersDetails[0]
+      logger.debug(memberDetails)
       if (memberDetails) {
         member = _.merge(message, _.pick(memberDetails, 'handle', 'firstName', 'lastName', 'email'))
         logger.debug(`Successfully got user details for member (userId:${message.userId})`)
