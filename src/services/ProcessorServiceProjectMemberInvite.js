@@ -22,7 +22,6 @@ function createSchema () {
       .email()
       .optional()
       .allow(null),
-    hashEmail: Joi.string().optional().allow(null),
     status: Joi.any()
       .valid(_.values(INVITE_STATUS))
       .required()
