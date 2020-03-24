@@ -53,22 +53,13 @@ create.schema = {
   message: createSchema()
 }
 
-// handle ES Update or Delete on invites
-const updateInvitesPromise = message => async (doc) => {
-  // now merge the updated changes and re-index the document
-  const invites = _.isArray(doc._source.invites) ? doc._source.invites : []
-  _.remove(invites, invite => (!!message.email && invite.email === message.email) ||
-  (!!message.userId && invite.userId === message.userId))
-  return _.assign(doc._source, { invites })
-}
-
 /**
  * Update message in Elasticsearch.
  * @param {Object} message the challenge updated message
  * @return {Promise} promise result
  */
 async function update (message) {
-  await helper.updateProjectESPromise(message.projectId, updateInvitesPromise(message))
+  await helper.updateProjectESPromise(message.projectId, helper.removeInvitePromise(message))
   logger.debug(`Member invite updated successfully in elasticsearch index, (memberInviteId: ${message.id})`)
 }
 
@@ -82,7 +73,7 @@ update.schema = {
  * @return {Promise} promise result
  */
 async function deleteMessage (message) {
-  await helper.updateProjectESPromise(message.projectId, updateInvitesPromise(message))
+  await helper.updateProjectESPromise(message.projectId, helper.removeInvitePromise(message))
   logger.debug(`Member invite deleted successfully in elasticsearch index, (memberInviteId: ${message.id})`)
 }
 

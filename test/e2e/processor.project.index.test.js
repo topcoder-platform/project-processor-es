@@ -832,6 +832,25 @@ describe('TC Project Member Topic Tests', () => {
       _.keys(_.omit(projectMemberCreatedMessage.payload, ['resource'])))
   })
 
+  it('create project member message - already exists - remove not removed invite', async () => {
+    // let's say we still have invite
+    await ProcessorService.create(projectMemberInviteCreatedMessage)
+    let data = await testHelper.getProjectESData(projectId)
+    // make sure that invite is there
+    testHelper.expectObj(_.find(data.invites, { id: projectMemberInviteId }), projectMemberInviteCreatedMessage.payload,
+      _.keys(_.omit(projectMemberInviteCreatedMessage.payload, ['resource'])))
+
+    // and we are adding a member (but invite is still there as we created above)
+    await ProcessorService.create(projectMemberCreatedMessage)
+    data = await testHelper.getProjectESData(projectId)
+
+    // check that member has been added
+    testHelper.expectObj(_.find(data.members, { id: projectMemberId }), projectMemberCreatedMessage.payload,
+      _.keys(_.omit(projectMemberCreatedMessage.payload, ['resource'])))
+    // and at the same time the invite for the member has been removed
+    expect(_.find(data.invites, { id: projectMemberInviteId })).to.be.an('undefined')
+  })
+
   it('update project member message', async () => {
     await ProcessorService.update(projectMemberUpdatedMessage)
     const data = await testHelper.getProjectESData(projectId)
@@ -887,9 +906,18 @@ describe('TC Project Member Invite Topic Tests', () => {
   it('update project member invite message - not found', async () => {
     const message = _.cloneDeep(projectMemberInviteUpdatedMessage)
     message.payload.id = notFoundId
-    await ProcessorService.update(message)
-    const data = await testHelper.getProjectESData(projectId)
-    expect(_.find(data.invites, { id: notFoundId })).to.be.an('undefined')
+    try {
+      await ProcessorService.create(projectMemberInviteCreatedMessage)
+      await ProcessorService.update(message)
+    } catch (err) {
+      logger.logFullError(err)
+      expect(err).to.exist // eslint-disable-line
+      expect(err.name).to.equal('Error')
+      const msg = 'not found and not removed.'
+      expect(err.message.indexOf(msg) >= 0).to.equal(true)
+      return
+    }
+    throw new Error('There should be not found error.')
   })
 
   it('delete project member invite message', async () => {
@@ -905,9 +933,18 @@ describe('TC Project Member Invite Topic Tests', () => {
   it('delete project member invite message - not found', async () => {
     const message = _.cloneDeep(projectMemberInviteDeletedMessage)
     message.payload.id = notFoundId
-    await ProcessorService.deleteMessage(message)
-    const data = await testHelper.getProjectESData(projectId)
-    expect(_.find(data.invites, { id: notFoundId })).to.be.an('undefined')
+    try {
+      await ProcessorService.create(projectMemberInviteCreatedMessage)
+      await ProcessorService.deleteMessage(message)
+    } catch (err) {
+      logger.logFullError(err)
+      expect(err).to.exist // eslint-disable-line
+      expect(err.name).to.equal('Error')
+      const msg = 'not found and not removed.'
+      expect(err.message.indexOf(msg) >= 0).to.equal(true)
+      return
+    }
+    throw new Error('There should be not found error.')
   })
 
   it('test logger', async () => {

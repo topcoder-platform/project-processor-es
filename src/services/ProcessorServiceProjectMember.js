@@ -53,23 +53,7 @@ async function create (message) {
   async function updateDocPromise (doc) {
     const members = _.isArray(doc._source.members) ? doc._source.members : []
     const existingMemberIndex = _.findIndex(members, p => p.id === message.id)// if member does not exists already
-    let member = message
-
-    // try to populate member with user details
-    // the code should move on, as it's not critical and is only used for searching at the moment
-    try {
-      const membersDetails = await helper.getMemberDetailsByUserIds([message.userId])
-      const memberDetails = membersDetails[0]
-      if (memberDetails) {
-        member = _.merge(message, _.pick(memberDetails, 'handle', 'firstName', 'lastName', 'email'))
-        logger.debug(`Successfully got user details for member (userId:${message.userId})`)
-      } else {
-        throw new Error(`Didn't fine user details for member (userId:${message.userId})`)
-      }
-    } catch (err) {
-      logger.error(`Cannot populate member (userId:${message.userId}) with user details.`)
-      logger.debug(`Error during populating member (userId:${message.userId}) with user details`, err)
-    }
+    const member = await helper.populateMemberWithUserDetails(message)
 
     if (existingMemberIndex === -1) {
       members.push(member)
@@ -78,6 +62,35 @@ async function create (message) {
       // from the database
       members.splice(existingMemberIndex, 1, member)
     }
+
+    // sometimes we have issue that when member accepts invitation the invitation is somehow
+    // is not removed from the ES, so here we are making sure that invite is removed when we are adding member
+    try { // make sure that this logic never cause an error in member adding process
+      const invites = _.filter(doc._source.invites, (invite) => (
+        invite.email === member.email || invite.userId === member.userId
+      ))
+
+      if (invites.length > 0) {
+        logger.warn(`There are ${invites.length} invite(s) are not yet removed` +
+          ` for member.id: ${member.id} member.userId: ${member.userId}.`)
+
+        for (let i = 0; i < invites.length; i++) {
+          const invite = invites[i]
+          logger.debug(`Removing invite.id: ${invite.id} for member.id: ${member.id} member.userId: ${member.userId}.`)
+          try {
+            const message = { id: invite.id }
+            const updateDocHandler = helper.removeInvitePromise(message)
+            await updateDocHandler(doc)
+            logger.debug(`Successfully removed invite.id: ${invite.id}.`)
+          } catch (err) {
+            logger.error(`Failed removing invite.id: ${invite.id}. ${err}`)
+          }
+        }
+      }
+    } catch (err) {
+      logger.error(`Error during removing existent invites for added member: ${err}`)
+    }
+
     return _.assign(doc._source, { members })
   }
 
