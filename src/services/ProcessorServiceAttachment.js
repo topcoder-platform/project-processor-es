@@ -7,6 +7,7 @@ const _ = require('lodash')
 
 const logger = require('../common/logger')
 const helper = require('../common/helper')
+const constants = require('../constants')
 
 /**
  * create id schema
@@ -27,7 +28,8 @@ function updateSchema () {
   return createIdSchema().keys({
     title: Joi.string().required(),
     description: Joi.string().optional().allow(null).allow(''),
-    allowedUsers: Joi.array().items(Joi.number().integer().positive()).allow(null).default(null)
+    allowedUsers: Joi.array().items(Joi.number().integer().positive()).allow(null).default(null),
+    tags: Joi.array().items(Joi.string()).optional().allow(null)
   })
 }
 
@@ -39,8 +41,10 @@ function createSchema () {
   return updateSchema().keys({
     category: Joi.string().optional().allow(null).allow(''),
     size: Joi.number().optional().allow(null),
-    contentType: Joi.string().required(),
-    filePath: Joi.string().required()
+    contentType: Joi.string().optional().allow(null).when('type', { is: constants.ATTACHMENT_TYPES.FILE, then: Joi.string().required() }),
+    path: Joi.string().required(),
+    type: Joi.string().valid(_.values(constants.ATTACHMENT_TYPES)),
+    tags: Joi.array().items(Joi.string()).optional().allow(null)
   })
 }
 
