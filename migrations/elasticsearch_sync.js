@@ -56,7 +56,13 @@ function getRequestBody (indexName) {
           description: {
             type: 'string'
           },
-          filePath: {
+          path: {
+            type: 'string'
+          },
+          type: {
+            type: 'string'
+          },
+          tags: {
             type: 'string'
           },
           id: {
@@ -227,8 +233,7 @@ function getRequestBody (indexName) {
             type: 'string'
           },
           handle: {
-            type: 'string',
-            index: 'not_analyzed'
+            type: 'string'
           },
           id: {
             type: 'long'
