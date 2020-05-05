@@ -29,7 +29,7 @@ module.exports = {
   esConfig: {
     HOST: process.env.ES_HOST || 'localhost:9200',
     AWS_REGION: process.env.AWS_REGION || 'us-east-1', // AWS Region to be used if we use AWS ES
-    API_VERSION: process.env.ES_API_VERSION || '6.7',
+    API_VERSION: process.env.ES_API_VERSION || '6.8',
     ES_PROJECT_INDEX: process.env.ES_PROJECT_INDEX || 'projects',
     ES_TIMELINE_INDEX: process.env.ES_TIMELINE_INDEX || 'timelines',
     ES_METADATA_INDEX: process.env.ES_METADATA_INDEX || 'metadata',

@@ -159,7 +159,9 @@ async function getMemberDetailsByUserIds (userIds) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    }).then(res => _.get(res, 'data.result.content', null))
+    }).then((res) => {
+      return _.get(res, 'data.result.content', null)
+    })
   } catch (err) {
     return Promise.reject(err)
   }
