@@ -10,7 +10,8 @@
     "sync:es": "node migrations/elasticsearch_sync.js",
     "view-data": "node test/common/view-data.js",
     "test": "NODE_ENV=test npm run sync:es && mocha test/e2e/*.test.js --timeout 30000 --exit && NODE_ENV=test npm run sync:es",
-    "test:cov": "nyc --reporter=html --reporter=text npm test"
+    "test:cov": "nyc --reporter=html --reporter=text npm test",
+    "test:stress": "NODE_ENV=test npm run sync:es && NODE_ENV=test node test/stress/doTest.js"
   },
   "author": "TCSCODER",
   "license": "none",
@@ -29,6 +30,7 @@
     "http-aws-es": "^6.0.0",
     "joi": "^14.3.1",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "no-kafka": "^3.4.3",
     "tc-core-library-js": "github:appirio-tech/tc-core-library-js#v2.6",
     "topcoder-healthcheck-dropin": "^1.0.3",

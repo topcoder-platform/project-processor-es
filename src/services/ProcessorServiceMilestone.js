@@ -88,14 +88,8 @@ async function create (message) {
     return _.assign(doc._source, { milestones })
   }
 
-  // NOTE Disable indexing milestones when create at the moment, as it's now being indexed inside Project Service.
-  //      It's because adding a milestones may cause cascading updates of other milestones and in such cases we are doing
-  //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
-  //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
-  //
-  // await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
-  // logger.debug(`Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
-  logger.debug(`TEMPORARY SKIPPED: Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
+  logger.debug(`Milestone created successfully in elasticsearch index, (milestoneId: ${message.id})`)
 }
 
 create.schema = {
@@ -119,14 +113,8 @@ async function update (message) {
     return _.assign(doc._source, { milestones })
   }
 
-  // NOTE Disable indexing milestones when update at the moment, as it's now being indexed inside Project Service.
-  //      It's because updating a milestones may cause cascading updates of other milestones and in such cases we are doing
-  //      one ES index call instead of multiple calls. Otherwise ES may fail with error `version conflict`.
-  //      This would be turned on back, as soon as we get rid of such cascading updates inside Project Service.
-  //
-  // await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
-  // logger.debug(`Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
-  logger.debug(`TEMPORARY SKIPPED: Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
+  await helper.updateTimelineESPromise(message.timelineId, updateDocPromise)
+  logger.debug(`Milestone updated successfully in elasticsearch index, (milestoneId: ${message.id})`)
 }
 
 update.schema = {
