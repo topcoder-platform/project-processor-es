@@ -35,5 +35,9 @@ module.exports = {
     ES_METADATA_INDEX: process.env.ES_METADATA_INDEX || 'metadata',
     ES_TYPE: process.env.ES_TYPE || 'doc', // ES 6.x accepts only 1 Type per index and it's mandatory to define it
     ES_METADATA_DEFAULT_ID: process.env.ES_METADATA_DEFAULT_ID || 1 // use for setting default id of metadata
-  }
+  },
+
+  // configuration for the stress test, see `test/stress/README.md`
+  STRESS_BASIC_QTY: process.env.STRESS_BASIC_QTY || 100,
+  STRESS_TESTER_TIMEOUT: process.env.STRESS_TESTER_TIMEOUT || 80
 }

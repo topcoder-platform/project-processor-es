@@ -620,7 +620,7 @@ describe('TC Timeline And Nested Timeline Topic Tests', () => {
   })
 })
 
-xdescribe('TC Milestone Topic Tests', () => {
+describe('TC Milestone Topic Tests', () => {
   before(async () => {
     // runs before all tests in this block
     await ProcessorService.create(timelineCreatedMessage)
