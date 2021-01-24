@@ -306,6 +306,9 @@ function getRequestBody (indexName) {
       terms: {
         type: 'string'
       },
+      groups: {
+        type: 'string'
+      },
       type: {
         type: 'string',
         index: 'not_analyzed'
