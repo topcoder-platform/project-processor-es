@@ -14,7 +14,10 @@ const helper = require('../common/helper')
  */
 function createIdSchema () {
   return Joi.object().keys({
-    id: Joi.number().integer().positive().required(),
+    id: Joi.alternatives(
+      Joi.number().integer().positive().required(),
+      Joi.array().items(Joi.number().integer().positive()).required()
+    ),
     projectId: Joi.number().integer().positive().required()
   }).unknown(true).required()
 }
@@ -107,7 +110,7 @@ update.schema = {
 async function deleteMessage (message) {
   // handle ES Update
   async function updateDocPromise (doc) {
-    const phases = _.filter(doc._source.phases, single => single.id !== message.id)
+    const phases = _.filter(doc._source.phases, single => _.isArray(message.id) ? !_.includes(message.id, single.id) : single.id !== message.id)
     return _.assign(doc._source, { phases })
   }
 
