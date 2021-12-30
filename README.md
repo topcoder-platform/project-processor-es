@@ -184,6 +184,7 @@ While running tests, the index names could be overwritten using environment vari
 export ES_PROJECT_INDEX=projects_test
 export ES_TIMELINE_INDEX=timelines_test
 export ES_METADATA_INDEX=metadata_test
+export ES_CUSTOMER_PAYMENT_INDEX=customer_payments_test
 ```
 
 #### Running integration tests and coverage

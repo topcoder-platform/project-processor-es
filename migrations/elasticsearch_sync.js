@@ -16,6 +16,7 @@ const helper = require('../src/common/helper')
 const ES_PROJECT_INDEX = config.get('esConfig.ES_PROJECT_INDEX')
 const ES_TIMELINE_INDEX = config.get('esConfig.ES_TIMELINE_INDEX')
 const ES_METADATA_INDEX = config.get('esConfig.ES_METADATA_INDEX')
+const ES_CUSTOMER_PAYMENT_INDEX = config.get('esConfig.ES_CUSTOMER_PAYMENT_INDEX')
 const ES_TYPE = config.get('esConfig.ES_TYPE')
 
 // create new elasticsearch client
@@ -839,6 +840,56 @@ function getRequestBody (indexName) {
     }
   }
 
+  const customerPaymentMapping = {
+    properties: {
+      id: {
+        type: 'long'
+      },
+      amount: {
+        type: 'long'
+      },
+      currency: {
+        type: 'string'
+      },
+      reference: {
+        type: 'string'
+      },
+      referenceId: {
+        type: 'string'
+      },
+      paymentIntentId: {
+        type: 'string'
+      },
+      clientSecret: {
+        type: 'string'
+      },
+      status: {
+        type: 'string'
+      },
+      createdAt: {
+        type: 'date',
+        format: 'strict_date_optional_time||epoch_millis'
+      },
+      createdBy: {
+        type: 'integer'
+      },
+      updatedAt: {
+        type: 'date',
+        format: 'strict_date_optional_time||epoch_millis'
+      },
+      updatedBy: {
+        type: 'integer'
+      },
+      deletedAt: {
+        type: 'date',
+        format: 'strict_date_optional_time||epoch_millis'
+      },
+      deletedBy: {
+        type: 'integer'
+      }
+    }
+  }
+
   const result = {
     index: indexName,
     include_type_name: true,
@@ -859,6 +910,9 @@ function getRequestBody (indexName) {
     case ES_TIMELINE_INDEX:
       result.body.mappings[ES_TYPE] = timelineMapping
       break
+    case ES_CUSTOMER_PAYMENT_INDEX:
+      result.body.mappings[ES_TYPE] = customerPaymentMapping
+      break
     default:
       throw new Error(`Invalid index name '${indexName}'`)
   }
@@ -878,6 +932,9 @@ esClient.indices.delete({
   // Re-create metadata index
   .then(() => esClient.indices.delete({ index: ES_METADATA_INDEX, ignore: [404] }))
   .then(() => esClient.indices.create(getRequestBody(ES_METADATA_INDEX)))
+  // Re-create customerPayment index
+  .then(() => esClient.indices.delete({ index: ES_CUSTOMER_PAYMENT_INDEX, ignore: [404] }))
+  .then(() => esClient.indices.create(getRequestBody(ES_CUSTOMER_PAYMENT_INDEX)))
   .then(() => {
     logger.info('elasticsearch indices synced successfully')
     process.exit()
