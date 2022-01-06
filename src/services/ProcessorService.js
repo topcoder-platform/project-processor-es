@@ -26,6 +26,7 @@ const ProcessorServiceTimeline = require('./ProcessorServiceTimeline')
 const ProcessorServiceMilestone = require('./ProcessorServiceMilestone')
 const ProcessorServiceMilestoneTemplate = require('./ProcessorServiceMilestoneTemplate')
 const ProcessorServiceProjectMemberInvite = require('./ProcessorServiceProjectMemberInvite')
+const ProcessorServiceCustomerPayment = require('./ProcessorServiceCustomerPayment')
 
 /**
  * Create schema.
@@ -63,6 +64,7 @@ const MappingResourceFunction = {
   [RESOURCES.TIMELINE]: ProcessorServiceTimeline,
   [RESOURCES.MILESTONE]: ProcessorServiceMilestone,
   [RESOURCES.MILESTONE_TEMPLATE]: ProcessorServiceMilestoneTemplate,
+  [RESOURCES.CUSTOMER_PAYMENT]: ProcessorServiceCustomerPayment,
   [RESOURCES.PROJECT_MEMBER_INVITE]: ProcessorServiceProjectMemberInvite
 }
 

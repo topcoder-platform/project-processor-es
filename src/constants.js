@@ -32,6 +32,7 @@ const RESOURCES = {
   TIMELINE: 'timeline',
   MILESTONE: 'milestone',
   MILESTONE_TEMPLATE: 'milestone.template',
+  CUSTOMER_PAYMENT: 'customer-payment',
   ATTACHMENT: 'attachment'
 }
 
@@ -72,6 +73,19 @@ const ATTACHMENT_TYPES = {
   'LINK': 'link'
 }
 
+const CUSTOMER_PAYMENT_STATUS = {
+  CANCELED: 'canceled',
+  PROCESSING: 'processing',
+  REQUIRES_ACTION: 'requires_action',
+  REQUIRES_CAPTURE: 'requires_capture',
+  REQUIRES_CONFIRMATION: 'requires_confirmation',
+  REQUIRES_PAYMENT_METHOD: 'requires_payment_method',
+  SUCCEEDED: 'succeeded',
+  REFUNDED: 'refunded',
+  REFUND_FAILED: 'refund_failed',
+  REFUND_PENDING: 'refund_pending'
+}
+
 module.exports = {
   RESOURCES,
   REGEX,
@@ -80,5 +94,6 @@ module.exports = {
   INVITE_STATUS,
   PROJECT_MEMBER_ROLE,
   MILESTONE_TEMPLATE_REFERENCES,
+  CUSTOMER_PAYMENT_STATUS,
   ATTACHMENT_TYPES
 }
