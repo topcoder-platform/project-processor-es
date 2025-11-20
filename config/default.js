@@ -17,7 +17,7 @@ module.exports = {
   DELETE_DATA_TOPIC: process.env.DELETE_DATA_TOPIC || 'project.action.delete',
   KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'project-api',
 
-  MEMBER_SERVICE_ENDPOINT: process.env.MEMBER_SERVICE_ENDPOINT || 'https://api.topcoder-dev.com/v3/members',
+  MEMBER_SERVICE_ENDPOINT: process.env.MEMBER_SERVICE_ENDPOINT || 'https://api.topcoder-dev.com/v6/members',
 
   AUTH0_URL: process.env.AUTH0_URL,
   AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL,

@@ -7,8 +7,6 @@ const config = require('config')
 const elasticsearch = require('elasticsearch')
 const _ = require('lodash')
 const tcCoreLib = require('tc-core-library-js')
-const urlencode = require('urlencode')
-
 const logger = require('./logger')
 
 AWS.config.region = config.get('esConfig.AWS_REGION')
@@ -148,20 +146,24 @@ async function updateMetadadaESPromise (updateDocHandler) {
  */
 async function getMemberDetailsByUserIds (userIds) {
   try {
+    const sanitizedUserIds = _.filter(userIds, id => !_.isNil(id))
+    if (!sanitizedUserIds || sanitizedUserIds.length === 0) {
+      return []
+    }
     const token = await getM2MToken()
-    const httpClient = tcCoreLibUtil.getHttpClient({ id: `projectMemberService_${userIds.join('_')}`, log: logger })
-    return httpClient.get(`${config.MEMBER_SERVICE_ENDPOINT}/_search`, {
+    const httpClient = tcCoreLibUtil.getHttpClient({ id: `projectMemberService_${sanitizedUserIds.join('_')}`, log: logger })
+    const userIdQuery = sanitizedUserIds.map(id => `userIds[]=${encodeURIComponent(id)}`).join('&')
+    const requestUrl = `${config.MEMBER_SERVICE_ENDPOINT}?${userIdQuery}`
+
+    return httpClient.get(requestUrl, {
       params: {
-        query: `${_.map(userIds, id => `userId:${id}`).join(urlencode(' OR ', 'utf8'))}`,
         fields: 'userId,handle,firstName,lastName,email'
       },
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    }).then((res) => {
-      return _.get(res, 'data.result.content', null)
-    })
+    }).then(res => _.get(res, 'data', []))
   } catch (err) {
     return Promise.reject(err)
   }

@@ -141,7 +141,7 @@ The following parameters can be set in config files or in env variables:
 - UPDATE_DATA_TOPIC: update data Kafka topic, default value is 'project.action.update'
 - DELETE_DATA_TOPIC: delete data Kafka topic, default value is 'project.action.delete'
 - KAFKA_MESSAGE_ORIGINATOR: Kafka topic originator, default value is 'project-api'
-- MEMBER_SERVICE_ENDPOINT: used to get member details
+- MEMBER_SERVICE_ENDPOINT: used to get member details (defaults to `https://api.topcoder-dev.com/v6/members`)
 - AUTH0_URL: AUTH0 URL, used to get M2M token
 - AUTH0_PROXY_SERVER_URL: AUTH0 proxy server URL, used to get M2M token
 - AUTH0_AUDIENCE: AUTH0 audience, used to get M2M token
