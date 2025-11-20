@@ -17,7 +17,7 @@ module.exports = {
   DELETE_DATA_TOPIC: process.env.DELETE_DATA_TOPIC || 'project.action.delete',
   KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'project-api',
 
-  MEMBER_SERVICE_ENDPOINT: process.env.MEMBER_SERVICE_ENDPOINT || 'https://api.topcoder-dev.com/v3/members',
+  MEMBER_SERVICE_ENDPOINT: process.env.MEMBER_SERVICE_ENDPOINT || 'https://api.topcoder-dev.com/v6/members',
 
   AUTH0_URL: process.env.AUTH0_URL,
   AUTH0_PROXY_SERVER_URL: process.env.AUTH0_PROXY_SERVER_URL,
@@ -33,6 +33,7 @@ module.exports = {
     ES_PROJECT_INDEX: process.env.ES_PROJECT_INDEX || 'projects',
     ES_TIMELINE_INDEX: process.env.ES_TIMELINE_INDEX || 'timelines',
     ES_METADATA_INDEX: process.env.ES_METADATA_INDEX || 'metadata',
+    ES_CUSTOMER_PAYMENT_INDEX: process.env.ES_CUSTOMER_PAYMENT_INDEX || 'customer_payments',
     ES_TYPE: process.env.ES_TYPE || 'doc', // ES 6.x accepts only 1 Type per index and it's mandatory to define it
     ES_METADATA_DEFAULT_ID: process.env.ES_METADATA_DEFAULT_ID || 1 // use for setting default id of metadata
   },
